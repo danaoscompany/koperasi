@@ -426,7 +426,7 @@ public function get_saldo_tersedia() {
 			    );
 			    echo json_encode($response);
 			} else {
-			    if (password_verify("abc", "$2y$10$1qbsDY9fZTYt06bgguvDnOpSbZMqgNxZpxtXCKEg0XPC8ahmrAXzu")) {
+			    if (password_verify("abc", $user['password'])) {
 			        if (intval($user['active']) != 1) {
 			            $response = array(
 				        "id" => intval($user["id"]),
