@@ -2,7 +2,7 @@
 
 class Test extends CI_Controller {
 
-public function test2() {
+public function test3() {
   $name = $this->input->post('name');
   echo $name;
 }
