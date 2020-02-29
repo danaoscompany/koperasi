@@ -426,8 +426,8 @@ public function get_saldo_tersedia() {
 			    );
 			    echo json_encode($response);
 			} else {
-			    if (password_verify("abc", "$2y$10$NyWOk4fHU0rWPIAkjDZzVuqrdtC/H8.c6CJ4uIHFobhSFQFA2dhGu")) {
-			        /*if (intval($user['active']) != 1) {
+			    if (password_verify("abc", "$2y$10$1qbsDY9fZTYt06bgguvDnOpSbZMqgNxZpxtXCKEg0XPC8ahmrAXzu")) {
+			        if (intval($user['active']) != 1) {
 			            $response = array(
 				        "id" => intval($user["id"]),
 				        "response" => -3
@@ -439,15 +439,15 @@ public function get_saldo_tersedia() {
 					"id" => intval($user["id"]),
 					"response" => 1
 				);
-				echo json_encode($response);*/
-				echo "Correct";
+				echo json_encode($response);
+				//echo "Correct";
 			    } else {
-				/*$response = array(
+				$response = array(
 					"id" => 0,
 					"response" => -2
 				);
-				echo json_encode($response);*/
-				echo "Incorrect";
+				echo json_encode($response);
+				//echo "Incorrect";
 			    }
 			}
 		} else {
