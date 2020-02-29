@@ -405,13 +405,13 @@ public function get_saldo_tersedia() {
 	
 	public function login() {
 		$email = $this->input->post("email");
-		$password = $this->input->post("password");
+		$kataSandi = $this->input->post("password");
 		$query = $this->db->get_where("users", array(
 			"email" => $email
 		));
 		if ($query->num_rows() > 0) {
 			$user = $query->row_array();
-			if ($password == $user['password']) {
+			if ($kataSandi == $user['password']) {
 			    if (intval($user['active']) != 1) {
 			        $response = array(
 				    "id" => intval($user["id"]),
@@ -426,7 +426,7 @@ public function get_saldo_tersedia() {
 			    );
 			    echo json_encode($response);
 			} else {
-			    if (password_verify("abc", $user['password'])) {
+			    if (password_verify($kataSandi, $user['password'])) {
 			        if (intval($user['active']) != 1) {
 			            $response = array(
 				        "id" => intval($user["id"]),
