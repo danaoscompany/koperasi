@@ -10,13 +10,13 @@ class Main extends CI_Controller {
 	}
 	
 	public function testname() {
-	  $this->get_post_value();
+	  echo $this->get_post_value();
 	}
 	
 	public function get_post_value() {
 	  /*$value = trim($this->input->post('name'));
 	  return $value;*/
-	  echo 123;
+	  echo 456;
 	}
 	
 	public function delete_by_id_name() {
