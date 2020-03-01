@@ -74,7 +74,7 @@ $this->upload->initialize($config);
     $totalNisbah = 0;
     $query = $this->db->get_where('nisbah', array(
       'no_anggota' => $noAnggota
-    ));
+    ))->result_array();
     for ($i=0; $i<sizeof($query); $i++) {
       $totalNisbah += intval($query[$i]['total_nisbah']);
     }
