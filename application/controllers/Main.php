@@ -704,7 +704,7 @@ public function get_saldo_tersedia() {
 	
 	public function signup() {
 	    $name = $this->get_post_value('name');
-	    $phone = urldecode(get_post_value("phone"));
+	    $phone = urldecode($this->get_post_value("phone"));
 	    $email = $this->get_post_value('email');
 	    $password = $this->get_post_value('password');
 	    $noAnggotaDate = $this->get_post_value('no_anggota_date');
