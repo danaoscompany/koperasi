@@ -10,7 +10,7 @@ class Test extends CI_Controller {
 	}
 
 public function test3() {
-  $name = get_post_value('name');
+  $name = $this->get_post_value('name');
   echo $name;
 }
 

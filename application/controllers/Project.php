@@ -10,7 +10,7 @@ class Project extends CI_Controller {
 	}
   
   public function get_nilai_project() {
-    $code = get_post_value('kode_project');
+    $code = $this->get_post_value('kode_project');
     $total = 0;
     $query = $this->db->get_where('investor', array(
         'kode_project' => $code

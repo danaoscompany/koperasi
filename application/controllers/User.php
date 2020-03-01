@@ -9,7 +9,7 @@ class User extends CI_Controller {
 	}
   
   public function upload_ktp_image() {
-    $userID = intval(get_post_value('user_id'));
+    $userID = intval($this->get_post_value('user_id'));
     $config['upload_path'] = './userdata/';
     $config['allowed_types'] = '*';
     $this->load->library('upload', $config);
@@ -24,13 +24,13 @@ class User extends CI_Controller {
   }
   
   public function top_up() {
-    $userID = intval(get_post_value('user_id'));
-    $jumlah = intval(get_post_value('jumlah'));
-    $tipe = intval(get_post_value('tipe'));
-    $tipePembayaran = intval(get_post_value('tipe_pembayaran'));
-    $tanggal = get_post_value('tanggal');
-    $noRek = get_post_value('no_rek');
-    $kodeSimpanan = get_post_value('kode_simpanan');
+    $userID = intval($this->get_post_value('user_id'));
+    $jumlah = intval($this->get_post_value('jumlah'));
+    $tipe = intval($this->get_post_value('tipe'));
+    $tipePembayaran = intval($this->get_post_value('tipe_pembayaran'));
+    $tanggal = $this->get_post_value('tanggal');
+    $noRek = $this->get_post_value('no_rek');
+    $kodeSimpanan = $this->get_post_value('kode_simpanan');
 $config['upload_path'] = './userdata/';
 $config['allowed_types'] = '*';
 
@@ -67,7 +67,7 @@ $this->upload->initialize($config);
   }
   
   public function get_tabungan() {
-    $userID = intval(get_post_value('user_id'));
+    $userID = intval($this->get_post_value('user_id'));
     $noAnggota = $this->db->get_where('nasabah', array(
       'user_id' => $userID
     ))->row_array()['no_anggota'];
@@ -101,7 +101,7 @@ $this->upload->initialize($config);
   }
   
   public function get_riwayat_tabungan() {
-    $userID = intval(get_post_value('user_id'));
+    $userID = intval($this->get_post_value('user_id'));
     echo json_encode($this->db->get_where('riwayat', array(
       'user_id' => $userID,
       'tipe' => 1,
@@ -111,7 +111,7 @@ $this->upload->initialize($config);
   }
   
   public function get_modal_history() {
-    $userID = intval(get_post_value('user_id'));
+    $userID = intval($this->get_post_value('user_id'));
     echo json_encode($this->db->get_where('riwayat', array(
       'user_id' => $userID,
       'tipe' => 1,
@@ -121,23 +121,23 @@ $this->upload->initialize($config);
   }
 
 public function signup() {
-  $firstName = get_post_value('first_name');
-  $lastName = get_post_value('last_name');
-  $email = get_post_value('email');
-  $phone = get_post_value('phone');
-  $password = get_post_value('password');
-  $countryID = get_post_value('country_id');
-  $zoneID = intval(get_post_value('zone_id'));
-  $cityID = intval(get_post_value('city_id'));
-  $city = get_post_value('city');
-  $districtID = intval(get_post_value('district_id'));
-  $district = get_post_value('district');
-  $address1 = get_post_value('address_1');
-  $address2 = get_post_value('address_2');
-  $lat = doubleval(get_post_value('lat'));
-  $lng = doubleval(get_post_value('lng'));
-  $newsletter = intval(get_post_value('newsletter'));
-  $date = get_post_value('date');
+  $firstName = $this->get_post_value('first_name');
+  $lastName = $this->get_post_value('last_name');
+  $email = $this->get_post_value('email');
+  $phone = $this->get_post_value('phone');
+  $password = $this->get_post_value('password');
+  $countryID = $this->get_post_value('country_id');
+  $zoneID = intval($this->get_post_value('zone_id'));
+  $cityID = intval($this->get_post_value('city_id'));
+  $city = $this->get_post_value('city');
+  $districtID = intval($this->get_post_value('district_id'));
+  $district = $this->get_post_value('district');
+  $address1 = $this->get_post_value('address_1');
+  $address2 = $this->get_post_value('address_2');
+  $lat = doubleval($this->get_post_value('lat'));
+  $lng = doubleval($this->get_post_value('lng'));
+  $newsletter = intval($this->get_post_value('newsletter'));
+  $date = $this->get_post_value('date');
   $cmd = "MAX(customer_id)";
   $customerID = intval($this->db->query("SELECT " . $cmd . " FROM dkm_customer")->row_array()[$cmd])+1;
   $cmd = "MAX(address_id)";
