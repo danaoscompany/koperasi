@@ -404,7 +404,7 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function login() {
-		$email = $this->input->post("email");
+		$email = trim($this->input->post("email"));
 		$kataSandi = $this->input->post("password");
 		$query = $this->db->get_where("users", array(
 			"email" => $email
