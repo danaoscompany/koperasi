@@ -2,15 +2,21 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Main extends CI_Controller {
+
 	
 	public function index() {
 		echo "Halo dunia";
 	}
 	
+  private function get_post_value($postName) {
+	  $value = trim($this->input->post($postName));
+	  return $value;
+	}
+	
 	public function delete_by_id_name() {
-	  $name = $this->input->post('name');
-	  $idName = $this->input->post('id_name');
-	  $id = $this->input->post('id');
+	  $name = get_post_value('name');
+	  $idName = get_post_value('id_name');
+	  $id = get_post_value('id');
 	  $this->db->where($idName, $id);
 	  $this->db->delete($name);
 	}
@@ -25,9 +31,9 @@ class Main extends CI_Controller {
 	}
 	
 	public function reset_password() {
-  $email = $this->input->post('email');
-  $password = $this->input->post('password');
-  $newPassword = $this->input->post('new_password');
+  $email = get_post_value('email');
+  $password = get_post_value('password');
+  $newPassword = get_post_value('new_password');
   $users = $this->db->get_where('users', array(
       'email' => $email
     ));
@@ -46,7 +52,7 @@ class Main extends CI_Controller {
 }
 	
 	public function check_email() {
-	    $email = $this->input->post('email');
+	    $email = get_post_value('email');
 	    $query = $this->db->get_where('users', array(
 	        'email' => $email
 	    ));
@@ -54,7 +60,7 @@ class Main extends CI_Controller {
 	}
 	
 	public function send_confirmation_code() {
-    $email = $this->input->post('email');
+    $email = get_post_value('email');
   $this->load->library('email');
 $code = mt_rand(100000, 999999);
 $message = 'Mohon masukkan kode berikut di layar yang tersedia untuk mengatur ulang kata sandi Anda: <b>' . $code . '</b>';
@@ -72,9 +78,9 @@ echo $code;
 }
 	
 	public function get_saldo() {
-    $userID = intval($this->input->post('user_id'));
-    $month = intval($this->input->post('month'));
-    $year = intval($this->input->post('year'));
+    $userID = intval(get_post_value('user_id'));
+    $month = intval(get_post_value('month'));
+    $year = intval(get_post_value('year'));
   $noAnggota = $this->db->get_where('nasabah', array(
       'user_id' => $userID
     ))->row_array()['no_anggota'];
@@ -137,9 +143,9 @@ echo $code;
 
 
 public function get_saldo_tersedia() {
-    $userID = intval($this->input->post('user_id'));
-    $month = intval($this->input->post('month'));
-    $year = intval($this->input->post('year'));
+    $userID = intval(get_post_value('user_id'));
+    $month = intval(get_post_value('month'));
+    $year = intval(get_post_value('year'));
     $noAnggota = $this->db->get_where('nasabah', array(
       'user_id' => $userID
     ))->row_array()['no_anggota'];
@@ -232,7 +238,7 @@ public function get_saldo_tersedia() {
 	
 	
 	public function get_kebutuhan_modal() {
-	  $userID = intval($this->input->post('user_id'));
+	  $userID = intval(get_post_value('user_id'));
 	  $noAnggota = $this->db->get_where('nasabah', array(
 	      'user_id' => $userID
 	    ))->row_array()['no_anggota'];
@@ -243,7 +249,7 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function get_total_withdraw() {
-	  $userID = intval($this->input->post('user_id'));
+	  $userID = intval(get_post_value('user_id'));
 	  $query = $this->db->get_where('withdraw', array(
 	      'user_id' => $userID,
 	      'dibayar' => 1
@@ -256,18 +262,18 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function withdraw() {
-      $kodeProject = $this->input->post('kode_project');
-	    $userID = intval($this->input->post('user_id'));
-	    $nama = $this->input->post('nama');
-      $type = intval($this->input->post('type'));
-	    $namaBank = $this->input->post('nama_bank');
-	    $noRek = $this->input->post('no_rek');
-	    $date = $this->input->post('date');
-	    $day = intval($this->input->post('day'));
-	    $month = intval($this->input->post('month'));
-	    $year = intval($this->input->post('year'));
-	    $automaticMonth = intval($this->input->post('automatic_month'));
-	    $amount = intval($this->input->post('amount'));
+      $kodeProject = get_post_value('kode_project');
+	    $userID = intval(get_post_value('user_id'));
+	    $nama = get_post_value('nama');
+      $type = intval(get_post_value('type'));
+	    $namaBank = get_post_value('nama_bank');
+	    $noRek = get_post_value('no_rek');
+	    $date = get_post_value('date');
+	    $day = intval(get_post_value('day'));
+	    $month = intval(get_post_value('month'));
+	    $year = intval(get_post_value('year'));
+	    $automaticMonth = intval(get_post_value('automatic_month'));
+	    $amount = intval(get_post_value('amount'));
 	    $users = $this->db->get_where('nasabah', array(
 	        'user_id' => $userID
 	    ));
@@ -365,7 +371,7 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function get_percentage() {
-	    /*$userID = intval($this->input->post('user_id'));
+	    /*$userID = intval(get_post_value('user_id'));
 	    $noAnggota = $this->db->get_where('nasabah', array(
 	        'user_id' => $userID
 	    ))->row_array()['no_anggota'];
@@ -375,7 +381,7 @@ public function get_saldo_tersedia() {
 	    $cmd = "SUM(porsi_modal)";
 	    $totalModal = intval($this->db->query("SELECT " . $cmd . " FROM investor")->row_array()[$cmd]);
 	    echo intval($porsiModal*100/$totalModal);*/
-      $id = intval($this->input->post('user_id'));
+      $id = intval(get_post_value('user_id'));
 	    $nasabah = $this->db->get_where('nasabah', array(
 	        'user_id' => $id
 	    ))->row_array();
@@ -392,7 +398,7 @@ public function get_saldo_tersedia() {
 	
 	public function cek_user() {
 		$this->load->database();
-		$uid = $this->input->post("uid");
+		$uid = get_post_value("uid");
 		$query = $this->db->get_where("users", array(
 			"google_id" => $uid
 		))->result();
@@ -404,8 +410,8 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function login() {
-		$email = $this->input->post("email");
-		$kataSandi = $this->input->post("password");
+		$email = get_post_value("email");
+		$kataSandi = get_post_value("password");
 		$query = $this->db->get_where("users", array(
 			"email" => $email
 		));
@@ -461,7 +467,7 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function activate_user() {
-	    $userID = intval($this->input->post('id'));
+	    $userID = intval(get_post_value('id'));
 	    $this->db->where('id', $userID);
 	    $this->db->update('users', array(
 	        'active' => 1
@@ -469,7 +475,7 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function deactivate_user() {
-	    $userID = intval($this->input->post('id'));
+	    $userID = intval(get_post_value('id'));
 	    $this->db->where('id', $userID);
 	    $this->db->update('users', array(
 	        'active' => 0
@@ -477,8 +483,8 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function get_by_id() {
-	    $name = $this->input->post('name');
-	    $id = intval($this->input->post('id'));
+	    $name = get_post_value('name');
+	    $id = intval(get_post_value('id'));
 	    $query = $this->db->get_where($name, array(
 	        'id' => $id
 	    ))->result_array();
@@ -486,9 +492,9 @@ public function get_saldo_tersedia() {
 	}
 	
   public function get_column_by_id() {
-      $columnName = $this->input->post('column_name');
-	    $name = $this->input->post('name');
-	    $id = intval($this->input->post('id'));
+      $columnName = get_post_value('column_name');
+	    $name = get_post_value('name');
+	    $id = intval(get_post_value('id'));
 	    $query = $this->db->get_where($name, array(
 	        'id' => $id
 	    ))->result_array();
@@ -496,10 +502,10 @@ public function get_saldo_tersedia() {
 	}
 	
   public function get_column_by_id_name() {
-      $columnName = $this->input->post('column_name');
-	    $name = $this->input->post('name');
-	    $idName = $this->input->post('id_name');
-	    $id = intval($this->input->post('id'));
+      $columnName = get_post_value('column_name');
+	    $name = get_post_value('name');
+	    $idName = get_post_value('id_name');
+	    $id = intval(get_post_value('id'));
 	    $query = $this->db->get_where($name, array(
 	        $idName => $id
 	    ))->result_array();
@@ -507,8 +513,8 @@ public function get_saldo_tersedia() {
 	}
 	
   public function get_by_id_string() {
-	    $name = $this->input->post('name');
-	    $id = $this->input->post('id');
+	    $name = get_post_value('name');
+	    $id = get_post_value('id');
 	    $query = $this->db->get_where($name, array(
 	        'id' => $id
 	    ))->result_array();
@@ -516,9 +522,9 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function get_by_id_name() {
-	    $name = $this->input->post('name');
-	    $idName = $this->input->post('id_name');
-	    $id = intval($this->input->post('id'));
+	    $name = get_post_value('name');
+	    $idName = get_post_value('id_name');
+	    $id = intval(get_post_value('id'));
 	    $query = $this->db->get_where($name, array(
 	        $idName => $id
 	    ))->result_array();
@@ -526,9 +532,9 @@ public function get_saldo_tersedia() {
 	}
 	
   public function get_by_id_name_string() {
-	    $name = $this->input->post('name');
-	    $idName = $this->input->post('id_name');
-	    $id = $this->input->post('id');
+	    $name = get_post_value('name');
+	    $idName = get_post_value('id_name');
+	    $id = get_post_value('id');
 	    $query = $this->db->get_where($name, array(
 	        $idName => $id
 	    ))->result_array();
@@ -536,7 +542,7 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function get_penyertaan_modal() {
-	    $id = intval($this->input->post('user_id'));
+	    $id = intval(get_post_value('user_id'));
 	    $nasabah = $this->db->get_where('nasabah', array(
 	        'user_id' => $id
 	    ))->row_array();
@@ -549,8 +555,8 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function get_porsi_modal() {
-	    $id = intval($this->input->post('id'));
-	    $kodeProject = $this->input->post('kode_project');
+	    $id = intval(get_post_value('id'));
+	    $kodeProject = get_post_value('kode_project');
 	    $nasabah = $this->db->get_where('nasabah', array(
 	        'user_id' => $id
 	    ))->row_array();
@@ -564,7 +570,7 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function get_bagi_hasil() {
-	    $id = intval($this->input->post('id'));
+	    $id = intval(get_post_value('id'));
 	    $nasabah = $this->db->get_where('nasabah', array(
 	        'user_id' => $id
 	    ))->row_array();
@@ -580,14 +586,14 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function get() {
-	    $name = $this->input->post('name');
+	    $name = get_post_value('name');
 	    $query = $this->db->get($name)->result_array();
 	    echo json_encode($query);
 	}
 	
 	public function get_akad_awal() {
-	    $kodeProject = $this->input->post('kode_project');
-	    $id = intval($this->input->post('id'));
+	    $kodeProject = get_post_value('kode_project');
+	    $id = intval(get_post_value('id'));
 	    $nasabah = $this->db->get_where('nasabah', array(
 	        'user_id' => $id
 	    ))->row_array();
@@ -600,9 +606,9 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function update_email() {
-	    $id = intval($this->input->post('id'));
-	    $email = $this->input->post('email');
-	    $password = $this->input->post('password');
+	    $id = intval(get_post_value('id'));
+	    $email = get_post_value('email');
+	    $password = get_post_value('password');
 	    $user = $this->db->get_where('users', array(
 	        'id' => $id
 	    ))->row_array();
@@ -618,10 +624,10 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function update_profile() {
-	    $id = intval($this->input->post('id'));
-	    $email = $this->input->post('email');
-	    $password = $this->input->post('password');
-	    $newPassword = $this->input->post('new_password');
+	    $id = intval(get_post_value('id'));
+	    $email = get_post_value('email');
+	    $password = get_post_value('password');
+	    $newPassword = get_post_value('new_password');
 	    $user = $this->db->get_where('users', array(
 	        'id' => $id
 	    ))->row_array();
@@ -638,7 +644,7 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function get_messages() {
-	    $userID = intval($this->input->post('user_id'));
+	    $userID = intval(get_post_value('user_id'));
 	    $this->db->where('deleted_at', NULL);
 	    $query = $this->db->get_where('inbox_messages', array(
 	        'user_id' => $userID
@@ -657,7 +663,7 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function delete_message() {
-	    $id = intval($this->input->post('id'));
+	    $id = intval(get_post_value('id'));
 	    $this->db->where('id', $id);
 	    $this->db->update('messages', array(
 	        'deleted_at' => date('Y:m:d H:i:s')
@@ -665,7 +671,7 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function undelete_message() {
-	    $id = intval($this->input->post('id'));
+	    $id = intval(get_post_value('id'));
 	    $this->db->where('id', $id);
 	    $this->db->update('messages', array(
 	        'deleted_at' => NULL
@@ -673,7 +679,7 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function get_deleted_messages() {
-      $userID = intval($this->input->post('user_id'));
+      $userID = intval(get_post_value('user_id'));
 	    $this->db->where('deleted_at IS NOT NULL');
 	    $query = $this->db->get_where('inbox_messages', array(
 	        'user_id' => $userID
@@ -692,11 +698,11 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function signup() {
-	    $name = $this->input->post('name');
-	    $phone = urldecode($this->input->post("phone"));
-	    $email = $this->input->post('email');
-	    $password = $this->input->post('password');
-	    $noAnggotaDate = $this->input->post('no_anggota_date');
+	    $name = get_post_value('name');
+	    $phone = urldecode(get_post_value("phone"));
+	    $email = get_post_value('email');
+	    $password = get_post_value('password');
+	    $noAnggotaDate = get_post_value('no_anggota_date');
 	    $users = $this->db->get_where('users', array(
 	        'phone' => $phone
 	      ));
@@ -755,19 +761,19 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function topup() {
-	    $userID = intval($this->input->post('user_id'));
-	    $nominal = intval($this->input->post('nominal'));
-	    $tipe = intval($this->input->post('tipe'));
-	    $idTabungan = intval($this->input->post('id_tabungan'));
-	    $tanggal = $this->input->post('tanggal');
+	    $userID = intval(get_post_value('user_id'));
+	    $nominal = intval(get_post_value('nominal'));
+	    $tipe = intval(get_post_value('tipe'));
+	    $idTabungan = intval(get_post_value('id_tabungan'));
+	    $tanggal = get_post_value('tanggal');
 	    $tabungan = $this->db->get_where('nasabah_tabungan', array(
 	        'id' => $idTabungan
 	    ))->row_array();
 	    $noRek = $tabungan['no_rek'];
 	    $kodeSimpanan = $tabungan['kode_simpanan'];
-	    $rekAsal = $this->input->post('rek_asal');
-	    $namaPengirim = $this->input->post('nama_pengirim');
-	    $externalID = $this->input->post('external_id');
+	    $rekAsal = get_post_value('rek_asal');
+	    $namaPengirim = get_post_value('nama_pengirim');
+	    $externalID = get_post_value('external_id');
 	    $this->db->insert('pembayaran', array(
 	        'user_id' => $userID,
 	        'tipe' => $tipe,
@@ -792,8 +798,8 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function get_pembayaran() {
-	    $userID = intval($this->input->post('user_id'));
-	    $dibayar = intval($this->input->post('dibayar'));
+	    $userID = intval(get_post_value('user_id'));
+	    $dibayar = intval(get_post_value('dibayar'));
 	    $query = $this->db->get_where('riwayat', array(
 	        'user_id' => $userID,
 	        'dibayar' => $dibayar

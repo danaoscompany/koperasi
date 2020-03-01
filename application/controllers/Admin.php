@@ -3,18 +3,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
 
+
 	public function index() {
 	}
 	
+  private function get_post_value($postName) {
+	  $value = trim(get_post_value($postName));
+	  return $value;
+	}
+	
 	public function topup() {
-	  $userID = intval($this->input->post('user_id'));
-	  $noAnggota = $this->input->post('no_anggota');
-	  $amount = intval($this->input->post('amount'));
-	  $kodeProject = $this->input->post('kode_project');
-	  $keterangan = $this->input->post('keterangan');
-	  $date = $this->input->post('date');
-	  $type = intval($this->input->post('type'));
-	  $tahun = intval($this->input->post('tahun'));
+	  $userID = intval(get_post_value('user_id'));
+	  $noAnggota = get_post_value('no_anggota');
+	  $amount = intval(get_post_value('amount'));
+	  $kodeProject = get_post_value('kode_project');
+	  $keterangan = get_post_value('keterangan');
+	  $date = get_post_value('date');
+	  $type = intval(get_post_value('type'));
+	  $tahun = intval(get_post_value('tahun'));
 	  if ($type == 0) {
 	  $query = $this->db->get_where('investor', array(
 	      'no_anggota' => $noAnggota,
@@ -99,12 +105,12 @@ class Admin extends CI_Controller {
 	}
 	
   public function add_project() {
-	  $namaProject = $this->input->post('nama_project');
+	  $namaProject = get_post_value('nama_project');
 	  $projectNumber = intval($this->db->get('project')->num_rows())+1;
 	  $kodeProject = "SYPG-01-" . str_pad($projectNumber, 3, '0', STR_PAD_LEFT);
-	  $kebutuhanModal = intval($this->input->post('kebutuhan_modal'));
-	  $nisbahInvestor = $this->input->post('nisbah_investor');
-	  $nisbahMudhorib = $this->input->post('nisbah_mudhorib');
+	  $kebutuhanModal = intval(get_post_value('kebutuhan_modal'));
+	  $nisbahInvestor = get_post_value('nisbah_investor');
+	  $nisbahMudhorib = get_post_value('nisbah_mudhorib');
 	  $this->db->insert('project', array(
 	    'kode_project' => $kodeProject,
 	    'nama_project' => $namaProject,
@@ -115,11 +121,11 @@ class Admin extends CI_Controller {
 	}
 	
 	public function edit_project() {
-	  $namaProject = $this->input->post('nama_project');
-	  $kodeProject = $this->input->post('kode_project');
-	  $kebutuhanModal = intval($this->input->post('kebutuhan_modal'));
-	  $nisbahInvestor = $this->input->post('nisbah_investor');
-	  $nisbahMudhorib = $this->input->post('nisbah_mudhorib');
+	  $namaProject = get_post_value('nama_project');
+	  $kodeProject = get_post_value('kode_project');
+	  $kebutuhanModal = intval(get_post_value('kebutuhan_modal'));
+	  $nisbahInvestor = get_post_value('nisbah_investor');
+	  $nisbahMudhorib = get_post_value('nisbah_mudhorib');
 	  $this->db->where('kode_project', $kodeProject);
 	  $this->db->update('project', array(
 	    'nama_project' => $namaProject,
@@ -130,8 +136,8 @@ class Admin extends CI_Controller {
 	}
 	
 	public function enable_comment() {
-	  $id = intval($this->input->post('id'));
-	  $enabled = intval($this->input->post('enabled'));
+	  $id = intval(get_post_value('id'));
+	  $enabled = intval(get_post_value('enabled'));
 	  $this->db->where('id', $id);
 	  $this->db->update('articles', array(
 	    'comments_enabled' => $enabled
@@ -139,8 +145,8 @@ class Admin extends CI_Controller {
 	}
 	
 	public function update_user_password() {
-	  $userID = intval($this->input->post('id'));
-	  $password = $this->input->post('password');
+	  $userID = intval(get_post_value('id'));
+	  $password = get_post_value('password');
 	  $this->db->where('id', $userID);
 	  $this->db->update('users', array(
 	            'password' => password_hash($password, PASSWORD_BCRYPT)
@@ -153,9 +159,9 @@ class Admin extends CI_Controller {
 	}
 	
 	public function ubah_transaksi() {
-	  $kodeTransaksi = $this->input->post('id');
-	  $date = $this->input->post('tanggal');
-	  $amount = intval($this->input->post('balance'));
+	  $kodeTransaksi = get_post_value('id');
+	  $date = get_post_value('tanggal');
+	  $amount = intval(get_post_value('balance'));
 	  $this->db->where('id_pembayaran', $kodeTransaksi);
 	  $this->db->update('riwayat', array(
 	      'amount' => $amount,
@@ -170,9 +176,9 @@ class Admin extends CI_Controller {
 	}
 	
 	public function get_nisbah() {
-	  $kodeProject = $this->input->post('kode_project');
-	  $noAnggota = $this->input->post('no_anggota');
-	  $tahun = intval($this->input->post('tahun'));
+	  $kodeProject = get_post_value('kode_project');
+	  $noAnggota = get_post_value('no_anggota');
+	  $tahun = intval(get_post_value('tahun'));
 	  echo json_encode($this->db->get_where('nisbah', array(
 	      'kode_project' => $kodeProject,
 	      'no_anggota' => $noAnggota,
@@ -181,7 +187,7 @@ class Admin extends CI_Controller {
 	}
 	
   public function confirm_withdraw_paid() {
-	  $id = intval($this->input->post('id'));
+	  $id = intval(get_post_value('id'));
 	  $this->db->where('id', $id);
 	  $this->db->update('withdraw', array(
 	      'dibayar' => 1
@@ -190,7 +196,7 @@ class Admin extends CI_Controller {
 	}
 	
 	public function confirm_paid() {
-	  $id = intval($this->input->post('id'));
+	  $id = intval(get_post_value('id'));
 	  $this->db->where('id', $id);
 	  $this->db->update('riwayat', array(
 	      'dibayar' => 1
@@ -218,7 +224,7 @@ class Admin extends CI_Controller {
 	}
 	
 	/*public function get_message_receivers() {
-	  $messageID = intval($this->input->post('id'));
+	  $messageID = intval(get_post_value('id'));
 	  $userIDs = [];
 	  $query = $this->db->get_where('inbox_messages', array(
 	    'message_id' => $messageID
@@ -230,9 +236,9 @@ class Admin extends CI_Controller {
 	}*/
 	
 	public function send_messages() {
-	  $messageID = intval($this->input->post('id'));
-	  $userIDs = json_decode($this->input->post('user_ids', true));
-	  $date = $this->input->post('date');
+	  $messageID = intval(get_post_value('id'));
+	  $userIDs = json_decode(get_post_value('user_ids', true));
+	  $date = get_post_value('date');
 	  $this->db->where('message_id', $messageID);
 	  $this->db->delete('inbox_messages');
 	  for ($i=0; $i<sizeof($userIDs); $i++) {
@@ -247,7 +253,7 @@ class Admin extends CI_Controller {
 	}
 	
 	public function get_message_receivers() {
-	  $messageID = intval($this->input->post('id'));
+	  $messageID = intval(get_post_value('id'));
 	  $users = $this->db->get('users')->result_array();
 	  for ($i=0; $i<sizeof($users); $i++) {
 	    $checked = false;
@@ -263,14 +269,14 @@ class Admin extends CI_Controller {
 	}
 	
 	public function get() {
-	    $name = $this->input->post('name');
+	    $name = get_post_value('name');
 	    $query = $this->db->get($name)->result_array();
 	    echo json_encode($query);
 	}
 	
 	public function get_by_id() {
-	    $name = $this->input->post('name');
-	    $id = intval($this->input->post('id'));
+	    $name = get_post_value('name');
+	    $id = intval(get_post_value('id'));
 	    $query = $this->db->get_where($name, array(
 	        'id' => $id
 	    ))->result_array();
@@ -278,9 +284,9 @@ class Admin extends CI_Controller {
 	}
 	
 	public function get_by_id_name() {
-	    $name = $this->input->post('name');
-	    $idName = $this->input->post('id_name');
-	    $id = intval($this->input->post('id'));
+	    $name = get_post_value('name');
+	    $idName = get_post_value('id_name');
+	    $id = intval(get_post_value('id'));
 	    $query = $this->db->get_where($name, array(
 	        $idName => $id
 	    ))->result_array();
@@ -288,8 +294,8 @@ class Admin extends CI_Controller {
 	}
 	
 	public function login() {
-	    $phone = urldecode($this->input->post("phone"));
-	    $password = $this->input->post('password');
+	    $phone = urldecode(get_post_value("phone"));
+	    $password = get_post_value('password');
 	    $admins = $this->db->get_where('admins', array(
 	        'phone' => $phone
 	    ));
@@ -307,15 +313,15 @@ class Admin extends CI_Controller {
 	}
 	
 	public function ubah_tabungan() {
-    $kode = $this->input->post('kode');
-    $name = $this->input->post('name');
-    $tanggal = $this->input->post('tanggal');
-    $noRek = $this->input->post('no_rek');
-    $simpanan = $this->input->post('simpanan');
-    $debit = intval($this->input->post('debit'));
-    $credit = intval($this->input->post('credit'));
-    $balance = intval($this->input->post('balance'));
-    $description = $this->input->post('description');
+    $kode = get_post_value('kode');
+    $name = get_post_value('name');
+    $tanggal = get_post_value('tanggal');
+    $noRek = get_post_value('no_rek');
+    $simpanan = get_post_value('simpanan');
+    $debit = intval(get_post_value('debit'));
+    $credit = intval(get_post_value('credit'));
+    $balance = intval(get_post_value('balance'));
+    $description = get_post_value('description');
     $this->db->where('kode_trans', $kode);
     $this->db->update('tabungan', array(
         'date_trans' => $tanggal,
@@ -350,9 +356,9 @@ class Admin extends CI_Controller {
 	}
 	
 	public function add_admin() {
-	    $phone = utf8_decode(urldecode($this->input->post('phone')));
-	    $email = $this->input->post('email');
-	    $password = $this->input->post('password');
+	    $phone = utf8_decode(urldecode(get_post_value('phone')));
+	    $email = get_post_value('email');
+	    $password = get_post_value('password');
 	        $admins = $this->db->get_where('admins', array(
 	            'phone' => $phone
 	        ));
@@ -376,13 +382,13 @@ class Admin extends CI_Controller {
 	}
 	
 	public function edit_admin() {
-	    $id = intval($this->input->post('id'));
-	    $phone = utf8_decode(urldecode($this->input->post('phone')));
-	    $email = $this->input->post('email');
-	    $password = $this->input->post('password');
-	    $phoneChanged = intval($this->input->post('phone_changed'));
-	    $emailChanged = intval($this->input->post('email_changed'));
-	    $passwordChanged = intval($this->input->post('password_changed'));
+	    $id = intval(get_post_value('id'));
+	    $phone = utf8_decode(urldecode(get_post_value('phone')));
+	    $email = get_post_value('email');
+	    $password = get_post_value('password');
+	    $phoneChanged = intval(get_post_value('phone_changed'));
+	    $emailChanged = intval(get_post_value('email_changed'));
+	    $passwordChanged = intval(get_post_value('password_changed'));
 	    if ($phoneChanged == 1) {
 	        $admins = $this->db->get_where('admins', array(
 	            'phone' => $phone
@@ -421,7 +427,7 @@ class Admin extends CI_Controller {
 	}
 	
 	public function delete() {
-	    $id = intval($this->input->post('id'));
+	    $id = intval(get_post_value('id'));
 	    $this->db->where('id', $id);
 	    $this->db->delete('admins');
 	}
@@ -431,14 +437,14 @@ class Admin extends CI_Controller {
 	}
 	
 	public function tambah_nasabah() {
-	    $noAnggota = $this->input->post('no_anggota');
-	    $nama = $this->input->post('nama');
-	    $alamat = $this->input->post('alamat');
-	    $kabupaten = $this->input->post('kabupaten');
-	    $kecamatan = $this->input->post('kecamatan');
-	    $provinsi = $this->input->post('provinsi');
-	    $userID = intval($this->input->post('user_id'));
-	    $gender = intval($this->input->post('gender'));
+	    $noAnggota = get_post_value('no_anggota');
+	    $nama = get_post_value('nama');
+	    $alamat = get_post_value('alamat');
+	    $kabupaten = get_post_value('kabupaten');
+	    $kecamatan = get_post_value('kecamatan');
+	    $provinsi = get_post_value('provinsi');
+	    $userID = intval(get_post_value('user_id'));
+	    $gender = intval(get_post_value('gender'));
 	    if ($gender == 0) {
 	        $gender = "LAKI-LAKI";
 	    } else if ($gender == 1) {
@@ -474,10 +480,10 @@ class Admin extends CI_Controller {
 	}
 	
 	public function tambah_rekening() {
-	    $namaBank = $this->input->post('nama_bank');
-	    $namaPemilik = $this->input->post('nama_pemilik');
-	    $noRek = $this->input->post('no_rek');
-	    $kodeSimpanan = $this->input->post('kode_simpanan');
+	    $namaBank = get_post_value('nama_bank');
+	    $namaPemilik = get_post_value('nama_pemilik');
+	    $noRek = get_post_value('no_rek');
+	    $kodeSimpanan = get_post_value('kode_simpanan');
 	    $cmd = "MAX(id)";
 	    $id = intval($this->db->query("SELECT " . $cmd . " FROM nasabah_tabungan")->row_array()[$cmd])+1;
 	    $this->db->insert('nasabah_tabungan', array(
@@ -492,14 +498,14 @@ class Admin extends CI_Controller {
 	}
 	
 	public function hapus_tabungan() {
-	    $id = intval($this->input->post('id'));
+	    $id = intval(get_post_value('id'));
 	    $this->db->where('id', $id);
 	    $this->db->delete('nasabah_tabungan');
 	}
 	
 	public function tambah_simpanan() {
-	    $name = $this->input->post('name');
-	    $code = $this->input->post('code');
+	    $name = get_post_value('name');
+	    $code = get_post_value('code');
 	    $this->db->insert('simpanan', array(
 	        'nama_simpanan' => $name,
 	        'kode_simpanan' => $code
@@ -507,7 +513,7 @@ class Admin extends CI_Controller {
 	}
 	
 	public function hapus_simpanan() {
-	    $id = intval($this->input->post('id'));
+	    $id = intval(get_post_value('id'));
 	    $this->db->where('id', $id);
 	    $this->db->delete('simpanan');
 	}
@@ -524,10 +530,10 @@ class Admin extends CI_Controller {
 	}
 	
 	public function tambah_investor() {
-	    $jumlahModal = intval($this->input->post('jumlah_modal'));
-	    $porsiModal = intval($this->input->post('porsi_modal'));
-	    $date = $this->input->post('date');
-	    $noAnggota = $this->input->post('no_anggota');
+	    $jumlahModal = intval(get_post_value('jumlah_modal'));
+	    $porsiModal = intval(get_post_value('porsi_modal'));
+	    $date = get_post_value('date');
+	    $noAnggota = get_post_value('no_anggota');
 	    $investors = $this->db->get_where('investor', array(
 	        'no_anggota' => $noAnggota
 	    ));
@@ -535,7 +541,7 @@ class Admin extends CI_Controller {
 	        echo -1;
 	        return;
 	    }
-	    $kodeProject = $this->input->post('kode_project');
+	    $kodeProject = get_post_value('kode_project');
 	    $this->db->insert('investor', array(
 	        'no_anggota' => $noAnggota,
 	        'kode_project' => $kodeProject,
@@ -546,11 +552,11 @@ class Admin extends CI_Controller {
 	}
 	
 	public function ubah_investor() {
-	    $jumlahModal = intval($this->input->post('jumlah_modal'));
-	    $porsiModal = intval($this->input->post('porsi_modal'));
-	    $date = $this->input->post('date');
-	    $noAnggota = $this->input->post('no_anggota');
-	    $kodeProject = $this->input->post('kode_project');
+	    $jumlahModal = intval(get_post_value('jumlah_modal'));
+	    $porsiModal = intval(get_post_value('porsi_modal'));
+	    $date = get_post_value('date');
+	    $noAnggota = get_post_value('no_anggota');
+	    $kodeProject = get_post_value('kode_project');
 	    $this->db->where('no_anggota', $noAnggota);
 	    $this->db->update('investor', array(
 	        'kode_project' => $kodeProject,
@@ -584,7 +590,7 @@ class Admin extends CI_Controller {
 	}
 	
 	public function hapus_investor() {
-	    $noAnggota = $this->input->post('no_anggota');
+	    $noAnggota = get_post_value('no_anggota');
 	    $this->db->where('no_anggota', $noAnggota);
 	    $this->db->delete('investor');
 	}
@@ -598,7 +604,7 @@ class Admin extends CI_Controller {
 	}
 	
 	public function get_nisbah_by_year() {
-	    $year = intval($this->input->post('year'));
+	    $year = intval(get_post_value('year'));
 	    $nisbah = $this->db->get_where('nisbah', array(
 	        'tahun' => "" . $year
 	    ))->result_array();
@@ -611,62 +617,62 @@ class Admin extends CI_Controller {
 	}
 	
 	public function simpan_nisbah() {
-	    $date = $this->input->post('date');
-	    $noAnggota = $this->input->post('no_anggota');
-	    $kodeProject = $this->input->post('kode_project');
-	    $tahun = $this->input->post('tahun');
-	    $omset1 = intval($this->input->post('omset_01'));
-	    $laba1 = intval($this->input->post('laba_01'));
-	    $biaya1 = intval($this->input->post('biaya_01'));
-	    $nisbah1 = intval($this->input->post('nisbah_01'));
-	    $omset2 = intval($this->input->post('omset_02'));
-	    $laba2 = intval($this->input->post('laba_02'));
-	    $biaya2 = intval($this->input->post('biaya_02'));
-	    $nisbah2 = intval($this->input->post('nisbah_02'));
-	    $omset3 = intval($this->input->post('omset_03'));
-	    $laba3 = intval($this->input->post('laba_03'));
-	    $biaya3 = intval($this->input->post('biaya_03'));
-	    $nisbah3 = intval($this->input->post('nisbah_03'));
-	    $omset4 = intval($this->input->post('omset_04'));
-	    $laba4 = intval($this->input->post('laba_04'));
-	    $biaya4 = intval($this->input->post('biaya_04'));
-	    $nisbah4 = intval($this->input->post('nisbah_04'));
-	    $omset5 = intval($this->input->post('omset_05'));
-	    $laba5 = intval($this->input->post('laba_05'));
-	    $biaya5 = intval($this->input->post('biaya_05'));
-	    $nisbah5 = intval($this->input->post('nisbah_05'));
-	    $omset6 = intval($this->input->post('omset_06'));
-	    $laba6 = intval($this->input->post('laba_06'));
-	    $biaya6 = intval($this->input->post('biaya_06'));
-	    $nisbah6 = intval($this->input->post('nisbah_06'));
-	    $omset7 = intval($this->input->post('omset_07'));
-	    $laba7 = intval($this->input->post('laba_07'));
-	    $biaya7 = intval($this->input->post('biaya_07'));
-	    $nisbah7 = intval($this->input->post('nisbah_07'));
-	    $omset8 = intval($this->input->post('omset_08'));
-	    $laba8 = intval($this->input->post('laba_08'));
-	    $biaya8 = intval($this->input->post('biaya_08'));
-	    $nisbah8 = intval($this->input->post('nisbah_08'));
-	    $omset9 = intval($this->input->post('omset_09'));
-	    $laba9 = intval($this->input->post('laba_09'));
-	    $biaya9 = intval($this->input->post('biaya_09'));
-	    $nisbah9 = intval($this->input->post('nisbah_09'));
-	    $omset10 = intval($this->input->post('omset_10'));
-	    $laba10 = intval($this->input->post('laba_10'));
-	    $biaya10 = intval($this->input->post('biaya_10'));
-	    $nisbah10 = intval($this->input->post('nisbah_10'));
-	    $omset11 = intval($this->input->post('omset_11'));
-	    $laba11 = intval($this->input->post('laba_11'));
-	    $biaya11 = intval($this->input->post('biaya_11'));
-	    $nisbah11 = intval($this->input->post('nisbah_11'));
-	    $omset12 = intval($this->input->post('omset_12'));
-	    $laba12 = intval($this->input->post('laba_12'));
-	    $biaya12 = intval($this->input->post('biaya_12'));
-	    $nisbah12 = intval($this->input->post('nisbah_12'));
-	    $omsetTotal = intval($this->input->post('tota_omset'));
-	    $labaTotal = intval($this->input->post('total_laba'));
-	    $biayaTotal = intval($this->input->post('total_biaya'));
-	    $nisbahTotal = intval($this->input->post('total_nisbah'));
+	    $date = get_post_value('date');
+	    $noAnggota = get_post_value('no_anggota');
+	    $kodeProject = get_post_value('kode_project');
+	    $tahun = get_post_value('tahun');
+	    $omset1 = intval(get_post_value('omset_01'));
+	    $laba1 = intval(get_post_value('laba_01'));
+	    $biaya1 = intval(get_post_value('biaya_01'));
+	    $nisbah1 = intval(get_post_value('nisbah_01'));
+	    $omset2 = intval(get_post_value('omset_02'));
+	    $laba2 = intval(get_post_value('laba_02'));
+	    $biaya2 = intval(get_post_value('biaya_02'));
+	    $nisbah2 = intval(get_post_value('nisbah_02'));
+	    $omset3 = intval(get_post_value('omset_03'));
+	    $laba3 = intval(get_post_value('laba_03'));
+	    $biaya3 = intval(get_post_value('biaya_03'));
+	    $nisbah3 = intval(get_post_value('nisbah_03'));
+	    $omset4 = intval(get_post_value('omset_04'));
+	    $laba4 = intval(get_post_value('laba_04'));
+	    $biaya4 = intval(get_post_value('biaya_04'));
+	    $nisbah4 = intval(get_post_value('nisbah_04'));
+	    $omset5 = intval(get_post_value('omset_05'));
+	    $laba5 = intval(get_post_value('laba_05'));
+	    $biaya5 = intval(get_post_value('biaya_05'));
+	    $nisbah5 = intval(get_post_value('nisbah_05'));
+	    $omset6 = intval(get_post_value('omset_06'));
+	    $laba6 = intval(get_post_value('laba_06'));
+	    $biaya6 = intval(get_post_value('biaya_06'));
+	    $nisbah6 = intval(get_post_value('nisbah_06'));
+	    $omset7 = intval(get_post_value('omset_07'));
+	    $laba7 = intval(get_post_value('laba_07'));
+	    $biaya7 = intval(get_post_value('biaya_07'));
+	    $nisbah7 = intval(get_post_value('nisbah_07'));
+	    $omset8 = intval(get_post_value('omset_08'));
+	    $laba8 = intval(get_post_value('laba_08'));
+	    $biaya8 = intval(get_post_value('biaya_08'));
+	    $nisbah8 = intval(get_post_value('nisbah_08'));
+	    $omset9 = intval(get_post_value('omset_09'));
+	    $laba9 = intval(get_post_value('laba_09'));
+	    $biaya9 = intval(get_post_value('biaya_09'));
+	    $nisbah9 = intval(get_post_value('nisbah_09'));
+	    $omset10 = intval(get_post_value('omset_10'));
+	    $laba10 = intval(get_post_value('laba_10'));
+	    $biaya10 = intval(get_post_value('biaya_10'));
+	    $nisbah10 = intval(get_post_value('nisbah_10'));
+	    $omset11 = intval(get_post_value('omset_11'));
+	    $laba11 = intval(get_post_value('laba_11'));
+	    $biaya11 = intval(get_post_value('biaya_11'));
+	    $nisbah11 = intval(get_post_value('nisbah_11'));
+	    $omset12 = intval(get_post_value('omset_12'));
+	    $laba12 = intval(get_post_value('laba_12'));
+	    $biaya12 = intval(get_post_value('biaya_12'));
+	    $nisbah12 = intval(get_post_value('nisbah_12'));
+	    $omsetTotal = intval(get_post_value('tota_omset'));
+	    $labaTotal = intval(get_post_value('total_laba'));
+	    $biayaTotal = intval(get_post_value('total_biaya'));
+	    $nisbahTotal = intval(get_post_value('total_nisbah'));
       $query = $this->db->get_where('nisbah', array(
 	        'tahun' => $tahun,
 	        'no_anggota' => $noAnggota
@@ -792,10 +798,10 @@ class Admin extends CI_Controller {
 	}
 	
 	public function simpan_pesan() {
-	    $id = intval($this->input->post('id'));
-	    $subject = $this->input->post('subject');
-	    $shortMessage = $this->input->post('short_message');
-	    $longMessage = $this->input->post('long_message');
+	    $id = intval(get_post_value('id'));
+	    $subject = get_post_value('subject');
+	    $shortMessage = get_post_value('short_message');
+	    $longMessage = get_post_value('long_message');
 	    $this->db->where('id', $id);
 	    $this->db->update('messages', array(
 	        'subject' => $subject,
@@ -805,10 +811,10 @@ class Admin extends CI_Controller {
 	}
 	
 	public function tambah_pesan(){
-	    $userID = intval($this->input->post('user_id'));
-	    $subject = $this->input->post('subject');
-	    $shortMessage = $this->input->post('short_message');
-	    $longMessage = $this->input->post('long_message');
+	    $userID = intval(get_post_value('user_id'));
+	    $subject = get_post_value('subject');
+	    $shortMessage = get_post_value('short_message');
+	    $longMessage = get_post_value('long_message');
 	    $this->db->insert('messages', array(
 	        'user_id' => $userID,
 	        'subject' => $subject,
@@ -820,16 +826,16 @@ class Admin extends CI_Controller {
 	}
 	
 	public function hapus_pesan() {
-	    $id = intval($this->input->post('id'));
+	    $id = intval(get_post_value('id'));
 	    $this->db->where('id', $id);
 	    $this->db->delete('messages');
 	}
 	
   public function simpan_artikel() {
-	    $id = intval($this->input->post('id'));
-	    $subject = $this->input->post('subject');
-	    $shortMessage = $this->input->post('short_message');
-	    $longMessage = $this->input->post('long_message');
+	    $id = intval(get_post_value('id'));
+	    $subject = get_post_value('subject');
+	    $shortMessage = get_post_value('short_message');
+	    $longMessage = get_post_value('long_message');
 	    $this->db->where('id', $id);
 	    $this->db->update('articles', array(
 	        'subject' => $subject,
@@ -839,10 +845,10 @@ class Admin extends CI_Controller {
 	}
 	
 	public function tambah_artikel(){
-	    $userID = intval($this->input->post('user_id'));
-	    $subject = $this->input->post('subject');
-	    $shortMessage = $this->input->post('short_message');
-	    $longMessage = $this->input->post('long_message');
+	    $userID = intval(get_post_value('user_id'));
+	    $subject = get_post_value('subject');
+	    $shortMessage = get_post_value('short_message');
+	    $longMessage = get_post_value('long_message');
 	    $this->db->insert('articles', array(
 	        'user_id' => $userID,
 	        'subject' => $subject,
@@ -857,7 +863,7 @@ class Admin extends CI_Controller {
   }
 	
 	public function hapus_artikel() {
-	    $id = intval($this->input->post('id'));
+	    $id = intval(get_post_value('id'));
 	    $this->db->where('id', $id);
 	    $this->db->delete('articles');
 	}

@@ -2,8 +2,14 @@
 
 class Test extends CI_Controller {
 
+  
+  private function get_post_value($postName) {
+	  $value = trim(get_post_value($postName));
+	  return $value;
+	}
+
 public function test3() {
-  $name = $this->input->post('name');
+  $name = get_post_value('name');
   echo $name;
 }
 
