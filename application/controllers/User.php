@@ -4,7 +4,7 @@ class User extends CI_Controller {
 
   
   private function get_post_value($postName) {
-	  $value = trim(get_post_value($postName));
+	  $value = trim($this->input->post($postName));
 	  return $value;
 	}
   
