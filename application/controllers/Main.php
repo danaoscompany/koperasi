@@ -15,7 +15,7 @@ class Main extends CI_Controller {
 	}
 	
 	public void testname() {
-	  echo get_post_value('name');
+	  echo trim($this->input->post('name'));
 	}
 	
 	public function delete_by_id_name() {
