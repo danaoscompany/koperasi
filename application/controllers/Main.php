@@ -404,7 +404,7 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function login() {
-		$email = trim($this->input->post("email"));
+		$email = $this->input->post("email");
 		$kataSandi = $this->input->post("password");
 		$query = $this->db->get_where("users", array(
 			"email" => $email
@@ -426,7 +426,7 @@ public function get_saldo_tersedia() {
 			    );
 			    echo json_encode($response);
 			} else {
-			    if (password_verify(trim($kataSandi), $user['password'])) {
+			    if (password_verify($kataSandi, $user['password'])) {
 			        if (intval($user['active']) != 1) {
 			            $response = array(
 				        "id" => intval($user["id"]),
