@@ -6,6 +6,7 @@ class Main extends CI_Controller {
 	
 	public function index() {
 		echo "Halo dunia";
+		
 	}
 	
   private function get_post_value($postName) {

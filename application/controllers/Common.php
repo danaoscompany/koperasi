@@ -6,6 +6,7 @@ class Common extends CI_Controller {
   private function get_post_value($postName) {
 	  $value = trim(get_post_value($postName));
 	  return $value;
+	  
 	}
 
 public function delete_by_id() {

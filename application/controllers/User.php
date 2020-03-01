@@ -5,7 +5,7 @@ class User extends CI_Controller {
   
   private function get_post_value($postName) {
 	  $value = trim(get_post_value($postName));
-	  return $value ;
+	  return $value;
 	}
   
   public function upload_ktp_image() {
