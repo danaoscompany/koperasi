@@ -10,7 +10,7 @@ class Main extends CI_Controller {
 	}
 	
 	public function testname() {
-	  get_post_value();
+	  $this->get_post_value();
 	}
 	
 	public function get_post_value() {
