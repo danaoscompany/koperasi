@@ -9,7 +9,7 @@ class Main extends CI_Controller {
 		
 	}
 	
-	public function get_post_value($postName) {
+	public function $this->get_post_value($postName) {
 	  $value = trim($this->input->post($postName));
 	  return $value;
 	}
@@ -403,7 +403,7 @@ public function get_saldo_tersedia() {
 	
 	public function cek_user() {
 		$this->load->database();
-		$uid = get_post_value("uid");
+		$uid = $this->get_post_value("uid");
 		$query = $this->db->get_where("users", array(
 			"google_id" => $uid
 		))->result();
@@ -415,8 +415,8 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function login() {
-		$email = get_post_value("email");
-		$kataSandi = get_post_value("password");
+		$email = $this->get_post_value("email");
+		$kataSandi = $this->get_post_value("password");
 		$query = $this->db->get_where("users", array(
 			"email" => $email
 		));
