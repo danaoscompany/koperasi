@@ -5,6 +5,7 @@ class Admin extends CI_Controller {
 
 
 	public function index() {
+	
 	}
 	
   private function get_post_value($postName) {
