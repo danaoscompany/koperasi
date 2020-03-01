@@ -5,7 +5,6 @@ class Admin extends CI_Controller {
 
 
 	public function index() {
-	
 	}
 	
   public function get_post_value($postName) {
@@ -295,7 +294,7 @@ class Admin extends CI_Controller {
 	}
 	
 	public function login() {
-	    $phone = urldecode(get_post_value("phone"));
+	    $phone = urldecode($this->get_post_value("phone"));
 	    $password = $this->get_post_value('password');
 	    $admins = $this->db->get_where('admins', array(
 	        'phone' => $phone
