@@ -439,8 +439,7 @@ public function get_saldo_tersedia() {
 					"id" => intval($user["id"]),
 					"response" => 1
 				);
-				//echo json_encode($response);
-				echo $kataSandi;
+				echo json_encode($response);
 				//echo "Correct";
 			    } else {
 				$response = array(
