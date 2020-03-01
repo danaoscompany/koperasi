@@ -14,8 +14,9 @@ class Main extends CI_Controller {
 	}
 	
 	public function get_post_value($postName) {
-	  $value = trim($this->input->post($postName));
-	  return $value;
+	  /*$value = trim($this->input->post($postName));
+	  return $value;*/
+	  echo 123;
 	}
 	
 	public function delete_by_id_name() {
