@@ -10,11 +10,11 @@ class Main extends CI_Controller {
 	}
 	
 	public function testname() {
-	  echo $this->get_post_value();
+	  echo $this->get_post_value('name');
 	}
 	
-	public function get_post_value() {
-	  $value = trim($this->input->post('name'));
+	public function get_post_value($postName) {
+	  $value = trim($this->input->post($postName));
 	  return $value;
 	}
 	
