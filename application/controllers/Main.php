@@ -14,7 +14,7 @@ class Main extends CI_Controller {
 	  return $value;
 	}
 	
-	public void testname() {
+	public function testname() {
 	  echo trim($this->input->post('name'));
 	}
 	
