@@ -14,6 +14,10 @@ class Main extends CI_Controller {
 	  return $value;
 	}
 	
+	public void testname() {
+	  echo get_post_value('name');
+	}
+	
 	public function delete_by_id_name() {
 	  $name = $this->get_post_value('name');
 	  $idName = $this->get_post_value('id_name');
