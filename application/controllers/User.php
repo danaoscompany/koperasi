@@ -203,4 +203,51 @@ public function signup() {
   echo json_encode($this->db->error());
 }
 
+public function edit_user() {
+  $id = intval($this->input->post('id'));
+  $name = $this->input->post('name');
+  $phone = urldecode($this->input->post('phone'));
+  $email = $this->input->post('email');
+  $emailChanged = intval($this->input->post('email_changed'));
+  $phoneChanged = intval($this->input->post('phone_changed'));
+  $menu1Active = intval($this->input->post('menu_1_active'));
+  $menu2Active = intval($this->input->post('menu_2_active'));
+  $menu3Active = intval($this->input->post('menu_3_active'));
+  $menu4Active = intval($this->input->post('menu_4_active'));
+  $menu5Active = intval($this->input->post('menu_5_active'));
+  $menu6Active = intval($this->input->post('menu_6_active'));
+  $menu7Active = intval($this->input->post('menu_7_active'));
+  $menu8Active = intval($this->input->post('menu_8_active'));
+  $menu9Active = intval($this->input->post('menu_9_active'));
+  $menu10Active = intval($this->input->post('menu_10_active'));
+  $menu11Active = intval($this->input->post('menu_11_active'));
+  $this->db->where('id', $id);
+  $this->db->update('users', array(
+    'name' => $name,
+    'menu_1_active' => $menu1Active,
+    'menu_2_active' => $menu2Active,
+    'menu_3_active' => $menu3Active,
+    'menu_4_active' => $menu4Active,
+    'menu_5_active' => $menu5Active,
+    'menu_6_active' => $menu6Active,
+    'menu_7_active' => $menu7Active,
+    'menu_8_active' => $menu8Active,
+    'menu_9_active' => $menu9Active,
+    'menu_10_active' => $menu10Active,
+    'menu_11_active' => $menu11Active
+  ));
+  $this->db->where('id', $id);
+  if ($emailChanged == 1) {
+    $this->db->update('users', array(
+      'email' => $email
+    ));
+  }
+  $this->db->where('id', $id);
+  if ($phoneChanged == 1) {
+    $this->db->update('users', array(
+      'phone' => $phone
+    ));
+  }
+}
+
 }
