@@ -286,4 +286,13 @@ public function get_viewers_count() {
   ))->num_rows();
 }
 
+public function like() {
+  $articleID = intval($this->input->post('article_id'));
+  $userID = intval($this->input->post('user_id'));
+  $this->db->insert('article_likes', array(
+    'article_id' => $articleID,
+    'user_id' => $userID
+  ));
+}
+
 }
