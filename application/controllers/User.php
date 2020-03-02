@@ -267,12 +267,12 @@ public function is_article_liked() {
 public function view_article() {
   $articleID = intval($this->input->post('article_id'));
   $userID = intval($this->input->post('user_id'));
-  $query = $this->db->get_where('article_views', array(
+  $query = $this->db->get_where('article_viewers', array(
     'article_id' => $articleID,
     'user_id' => $userID
   ))->result_array();
   if (sizeof($query) == 0) {
-    $this->db->insert('article_views', array(
+    $this->db->insert('article_viewers', array(
       'article_id' => $articleID,
       'user_id' => $userID
     ));
@@ -281,7 +281,7 @@ public function view_article() {
 
 public function get_viewers_count() {
   $articleID = intval($this->input->post('article_id'));
-  echo $this->db->get_where('article_views', array(
+  echo $this->db->get_where('article_viewers', array(
     'article_id' => $articleID
   ))->num_rows();
 }
