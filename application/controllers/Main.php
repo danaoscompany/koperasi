@@ -745,7 +745,8 @@ public function get_saldo_tersedia() {
 	        'ktp_status' => 1
 	    ));
 	    $userID = intval($this->db->insert_id());
-	    $id = $this->db->query('SELECT * FROM nasabah')->num_rows()+1;
+	    $cmd = "MAX(CAST(id AS UNSIGNED))";
+	    $id = intval($this->db->query('SELECT ' . $cmd . ' FROM nasabah')->row_array()[$cmd])+1;
 	    $id = str_pad($id, 4, '0', STR_PAD_LEFT);
 	    $this->db->insert('nasabah', array(
 	        'id' => $id,
