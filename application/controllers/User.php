@@ -250,4 +250,18 @@ public function edit_user() {
   }
 }
 
+public function is_article_liked() {
+  $articleID = intval($this->input->post('article_id'));
+  $userID = intval($this->input->post('user_id'));
+  $query = $this->db->get_where('article_likes', array(
+    'article_id' => $articleID,
+    'user_id' => $userID
+  ))->result_array();
+  if (sizeof($query) > 0) {
+    echo 1;
+  } else {
+    echo 0;
+  }
+}
+
 }
