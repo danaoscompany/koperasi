@@ -18,7 +18,7 @@ class Main extends CI_Controller {
 	    $this->db->update('terms', array(
 	        'terms' => $terms
 	    ));
-	    echo json_encode($this->db->error());
+	    echo $terms;
 	}
 	
 	public function testname() {
