@@ -6,7 +6,13 @@ class Main extends CI_Controller {
 	
 	public function index() {
 		echo "Halo dunia";
-		
+	}
+	
+	public function save_terms() {
+	    $terms = $this->input->post('terms');
+	    $this->db->update('terms', array(
+	        'terms' => $terms
+	    ));
 	}
 	
 	public function get_post_value($postName) {
