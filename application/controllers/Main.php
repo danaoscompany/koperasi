@@ -8,17 +8,17 @@ class Main extends CI_Controller {
 		echo "Halo dunia";
 	}
 	
+	public function get_post_value($postName) {
+	  $value = trim($this->input->post($postName));
+	  return $value;
+	}
+	
 	public function save_terms() {
-	    $terms = $this->input->post('terms');
+	    $terms = get_post_value('terms');
 	    $this->db->update('terms', array(
 	        'terms' => $terms
 	    ));
 	    echo json_encode($this->db->error());
-	}
-	
-	public function get_post_value($postName) {
-	  $value = trim($this->input->post($postName));
-	  return $value;
 	}
 	
 	public function testname() {
