@@ -13,6 +13,7 @@ class Main extends CI_Controller {
 	    $this->db->update('terms', array(
 	        'terms' => $terms
 	    ));
+	    echo json_encode($this->db->error());
 	}
 	
 	public function get_post_value($postName) {
