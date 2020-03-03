@@ -15,10 +15,16 @@ class Main extends CI_Controller {
 	
 	public function save_terms() {
 	    $terms = $this->get_post_value('terms');
-	    $this->db->update('terms', array(
-	        'terms' => $terms
-	    ));
-	    echo $terms;
+	    $query = $this->db->get('terms')->result_array();
+	    if (sizeof($query) > 0) {
+	        $this->db->update('terms', array(
+	        	'terms' => $terms
+	    	));
+	    } else {
+	    	$this->db->insert('terms', array(
+	    		'terms' => $terms
+	    	));
+	    }
 	}
 	
 	public function testname() {
