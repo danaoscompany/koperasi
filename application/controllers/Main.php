@@ -14,7 +14,7 @@ class Main extends CI_Controller {
 	}
 	
 	public function save_terms() {
-	    $terms = get_post_value('terms');
+	    $terms = $this->get_post_value('terms');
 	    $this->db->update('terms', array(
 	        'terms' => $terms
 	    ));
