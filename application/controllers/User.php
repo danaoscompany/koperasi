@@ -29,7 +29,7 @@ class User extends CI_Controller {
       ))->row_array()['no_anggota'];
       $query = $this->db->get_where('riwayat_simpanan', array(
           'no_anggota' => $noAnggota,
-          'kode_trans' => 'SYPG-01-002'
+          'kode_project' => 'SYPG-01-002'
       ))->result_array();
       $total = 0;
       for ($i=0; $i<sizeof($query); $i++) {
