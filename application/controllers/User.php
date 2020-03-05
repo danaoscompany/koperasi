@@ -25,12 +25,16 @@ class User extends CI_Controller {
   
   public function top_up() {
     $userID = intval($this->get_post_value('user_id'));
+    $kodeProject = $this->get_post_value('kode_project');
     $jumlah = intval($this->get_post_value('jumlah'));
     $tipe = intval($this->get_post_value('tipe'));
     $tipePembayaran = intval($this->get_post_value('tipe_pembayaran'));
     $tanggal = $this->get_post_value('tanggal');
     $noRek = $this->get_post_value('no_rek');
     $kodeSimpanan = $this->get_post_value('kode_simpanan');
+    $noAnggota = $this->db->get_where('nasabah', array(
+        'user_id' => $userID
+    ))->row_array()['no_anggota'];
 $config['upload_path'] = './userdata/';
 $config['allowed_types'] = '*';
 
@@ -39,8 +43,22 @@ $this->load->library('upload', $config);
 // Alternately you can set preferences by calling the ``initialize()`` method. Useful if you auto-load the class:
 $this->upload->initialize($config);
     if ($this->upload->do_upload('file')) {
-      $id = uniqid();
       $cmd = "MAX(no_urut)";
+      $noUrut = intval($this->db->query("SELECT " . $cmd . " FROM riwayat_simpanan")->row_array()[$cmd])+1;
+      $id = uniqid();
+      $this->db->insert('riwayat_simpanan', array(
+          'date_trans' => $tanggal,
+          'kode_project' => $kodeProject,
+          'no_anggota' => $noAnggota,
+          'kode_trans' => $id,
+          'debet' => $jumlah,
+          'credit' => 0,
+          'saldo' => $jumlah,
+          'no_urut' => $noUrut,
+          'paid' => 0,
+          'synced_at' => $tanggal
+      ));
+      /*$cmd = "MAX(no_urut)";
       $noUrut = intval($this->db->query("SELECT " . $cmd . " FROM tabungan")->row_array()[$cmd])+1;
       $this->db->insert('tabungan', array(
         'kode_trans' => $id,
@@ -62,8 +80,56 @@ $this->upload->initialize($config);
         'id_withdraw' => 0,
         'amount' => $jumlah,
         'date' => $tanggal
-      ));
+      ));*/
     }
+  }
+  
+  public function get_mutlaqoh_value($userID) {
+      $noAnggota = $this->db->get_where('nasabah', array(
+          'user_id' => $userID
+      ))->row_array()['no_anggota'];
+      $total = 0;
+      $this->db->where('no_anggota', $noAnggota)->where('paid', 1)->where('kode_project', 'SYPG-01-002')->or_where('kode_project', 'SYPG-01-003');
+      $query = $this->db->get('riwayat_simpanan')->result_array();
+      for ($i=0; $i<sizeof($query); $i++) {
+          $total += intval($query[$i]['debet']);
+      }
+      return $total;
+  }
+  
+  public function get_mutlaqoh() {
+      $userID = intval($this->get_post_value('user_id'));
+      echo get_mutlaqoh_value($userID);
+  }
+  
+  public function get_prosentase() {
+      $userID = intval($this->get_post_value('user_id'));
+      $mutlaqoh = doubleval(get_mutlaqoh_value($userID));
+      $total = 0.0;
+      $this->db->where('paid', 1)->where('kode_project', 'SYPG-01-002')->or_where('kode_project', 'SYPG-01-003');
+      $query = $this->db->get('riwayat_simpanan')->result_array();
+      for ($i=0; $i<sizeof($query); $i++) {
+          $total += doubleval($query[$i]['debet']);
+      }
+      echo $mutlaqoh*100/$total;
+  }
+  
+  public function get_total_nilai_project() {
+      $userID = intval($this->get_post_value('user_id'));
+      $noAnggota = $this->db->get_where('nasabah', array(
+          'user_id' => $userID
+      ))->row_array()['no_anggota'];
+      $total = 0;
+      $query = $this->db->get_where('investor', array(
+          'no_anggota' => $noAnggota
+      ))->result_array();
+      for ($i=0; $i<sizeof($query); $i++) {
+          $kodeProject = $query[$i]['kode_project'];
+          $total += intval($this->db->get_where('project', array(
+              'kode_project' => $kodeProject
+          ))->row_array()['porsi_modal']);
+      }
+      echo $total;
   }
   
   public function get_tabungan() {
