@@ -35,8 +35,7 @@ class User extends CI_Controller {
       for ($i=0; $i<sizeof($query); $i++) {
           $total += intval($query[$i]['debet']);
       }
-      //return $total;
-      return $noAnggota;
+      return "Size of query: " . sizeof($query);
   }
   
   public function top_up() {
