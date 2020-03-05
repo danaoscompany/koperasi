@@ -23,6 +23,21 @@ class User extends CI_Controller {
     }
   }
   
+  public function get_total_simpanan_pokok($userID) {
+      $noAnggota = $this->db->get_where('nasabah', array(
+        'user_id' => $userID
+      ))->row_array()['no_anggota'];
+      $query = $this->db->get_where('riwayat_simpanan', array(
+          'no_anggota' => $noAnggota,
+          'kode_trans' => 'SYPG-01-002'
+      ))->result_array();
+      $total = 0;
+      for ($i=0; $i<sizeof($query); $i++) {
+          $total += intval($query[$i]['debet']);
+      }
+      return $total;
+  }
+  
   public function top_up() {
     $userID = intval($this->get_post_value('user_id'));
     $kodeProject = $this->get_post_value('kode_project');
@@ -30,6 +45,8 @@ class User extends CI_Controller {
     $tipe = intval($this->get_post_value('tipe'));
     $tipePembayaran = intval($this->get_post_value('tipe_pembayaran'));
     $tanggal = $this->get_post_value('tanggal');
+    $bulan = intval($this->get_post_value('bulan'));
+    $tahun = intval($this->get_post_value('tahun'));
     $noRek = $this->get_post_value('no_rek');
     $kodeSimpanan = $this->get_post_value('kode_simpanan');
     $noAnggota = $this->db->get_where('nasabah', array(
@@ -46,41 +63,83 @@ $this->upload->initialize($config);
       $cmd = "MAX(no_urut)";
       $noUrut = intval($this->db->query("SELECT " . $cmd . " FROM riwayat_simpanan")->row_array()[$cmd])+1;
       $id = uniqid();
-      $this->db->insert('riwayat_simpanan', array(
-          'date_trans' => $tanggal,
-          'kode_project' => $kodeProject,
-          'no_anggota' => $noAnggota,
-          'kode_trans' => $id,
-          'debet' => $jumlah,
-          'credit' => 0,
-          'saldo' => $jumlah,
-          'no_urut' => $noUrut,
-          'paid' => 0,
-          'synced_at' => $tanggal
-      ));
-      /*$cmd = "MAX(no_urut)";
-      $noUrut = intval($this->db->query("SELECT " . $cmd . " FROM tabungan")->row_array()[$cmd])+1;
-      $this->db->insert('tabungan', array(
-        'kode_trans' => $id,
-        'user_id' => $userID,
-        'tipe' => $tipe,
-        'date_trans' => substr($tanggal, 0, 8),
-        'debet' => $jumlah,
-        'credit' => 0,
-        'saldo' => $jumlah,
-        'bukti_transfer' => $this->upload->data('file_name'),
-        'no_urut' => $noUrut,
-        'synced_at' => $tanggal
-      ));
-      $this->db->insert('riwayat', array(
-        'user_id' => $userID,
-        'tipe' => $tipe,
-        'tipe_pembayaran' => $tipePembayaran,
-        'id_pembayaran' => $id,
-        'id_withdraw' => 0,
-        'amount' => $jumlah,
-        'date' => $tanggal
-      ));*/
+      if ($kodeProject == 'SYPG-01-002') {
+        // Simpanan Pokok
+        $simpananPokok = get_total_simpanan_pokok($userID);
+        if ($simpananPokok >= 1000000) {
+          echo -1;
+          return;
+        } else {
+          // Insert Simpanan Pokok
+          $topupSimpananPokok = 0;
+          if ($jumlah >= (1000000-$simpananPokok)) {
+            $topupSimpananPokok = 1000000-$simpananPokok;
+          } else {
+            $topupSimpananPokok = $jumlah;
+          }
+          $this->db->insert('riwayat_simpanan', array(
+            'date_trans' => $tanggal,
+            'kode_project' => 'SYPG-01-002',
+            'no_anggota' => $noAnggota,
+            'kode_trans' => $id,
+            'debet' => $topupSimpananPokok,
+            'credit' => 0,
+            'saldo' => $topupSimpananPokok,
+            'no_urut' => $noUrut,
+            'paid' => 0,
+            'synced_at' => $tanggal
+          ));
+          $simpananWajib = $jumlah-(1000000-$simpananPokok);
+          // Insert Simpanan Wajib
+          // Get last topup date
+          $query2 = $this->db->query("SELECT * FROM riwayat_simpanan WHERE no_anggota='" . $noAnggota . "', kode_project='SYPG-01-003', paid=1 ORDER BY synced_at DESC LIMIT 1")->result_array();
+          if (sizeof($query2) > 0) {
+            $tanggal = $query2[0]['synced_at'];
+            $tanggal = date('Y:m:d H:i:s', strtotime('+1 month', strtotime($tanggal)));
+          }
+          $totalMonths = $simpananWajib/50000;
+          for ($i=0; $i<$totalMonths; $i++) {
+            $this->db->insert('riwayat_simpanan', array(
+            'date_trans' => $tanggal,
+            'kode_project' => 'SYPG-01-003',
+            'no_anggota' => $noAnggota,
+            'kode_trans' => $id,
+            'debet' => 50000,
+            'credit' => 0,
+            'saldo' => 50000,
+            'no_urut' => $noUrut,
+            'paid' => 0,
+            'synced_at' => $tanggal
+            ));
+            $tanggal = date('Y:m:d H:i:s', strtotime('+1 month', strtotime($tanggal)));
+          }
+        }
+      } else if ($kodeProject == 'SYPG-01-003') {
+        $simpananWajib = $jumlah;
+          // Insert Simpanan Wajib
+          // Get last topup date
+          $query2 = $this->db->query("SELECT * FROM riwayat_simpanan WHERE no_anggota='" . $noAnggota . "', kode_project='SYPG-01-003', paid=1 ORDER BY synced_at DESC LIMIT 1")->result_array();
+          if (sizeof($query2) > 0) {
+            $tanggal = $query2[0]['synced_at'];
+            $tanggal = date('Y:m:d H:i:s', strtotime('+1 month', strtotime($tanggal)));
+          }
+          $totalMonths = $simpananWajib/50000;
+          for ($i=0; $i<$totalMonths; $i++) {
+            $this->db->insert('riwayat_simpanan', array(
+            'date_trans' => $tanggal,
+            'kode_project' => 'SYPG-01-003',
+            'no_anggota' => $noAnggota,
+            'kode_trans' => $id,
+            'debet' => 50000,
+            'credit' => 0,
+            'saldo' => 50000,
+            'no_urut' => $noUrut,
+            'paid' => 0,
+            'synced_at' => $tanggal
+            ));
+            $tanggal = date('Y:m:d H:i:s', strtotime('+1 month', strtotime($tanggal)));
+          }
+      }
     }
   }
   
