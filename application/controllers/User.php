@@ -33,11 +33,9 @@ class User extends CI_Controller {
       ))->result_array();
       $total = 0;
       for ($i=0; $i<sizeof($query); $i++) {
-      	  echo intval($query[$i]['debet']);
-      	  return;
           $total += intval($query[$i]['debet']);
       }
-      return "Size of query: " . sizeof($query);
+      return $total;
   }
   
   public function top_up() {
