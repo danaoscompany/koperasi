@@ -159,12 +159,12 @@ $this->upload->initialize($config);
   
   public function get_mutlaqoh() {
       $userID = intval($this->get_post_value('user_id'));
-      echo get_mutlaqoh_value($userID);
+      echo $this->get_mutlaqoh_value($userID);
   }
   
   public function get_prosentase() {
       $userID = intval($this->get_post_value('user_id'));
-      $mutlaqoh = doubleval(get_mutlaqoh_value($userID));
+      $mutlaqoh = doubleval($this->get_mutlaqoh_value($userID));
       $total = 0.0;
       $this->db->where('paid', 1)->where('kode_project', 'SYPG-01-002')->or_where('kode_project', 'SYPG-01-003');
       $query = $this->db->get('riwayat_simpanan')->result_array();
