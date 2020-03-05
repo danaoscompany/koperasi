@@ -141,6 +141,7 @@ $this->upload->initialize($config);
           }
       }
     }
+    echo json_encode($this->db->error());
   }
   
   public function get_mutlaqoh_value($userID) {
