@@ -65,8 +65,6 @@ $this->upload->initialize($config);
       if ($kodeProject == 'SYPG-01-002') {
         // Simpanan Pokok
         $simpananPokok = $this->get_total_simpanan_pokok($userID);
-        echo $simpananPokok;
-        return;
         if ($simpananPokok >= 1000000) {
           echo -1;
           return;
