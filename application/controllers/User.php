@@ -91,7 +91,7 @@ $this->upload->initialize($config);
           $simpananWajib = $jumlah-(1000000-$simpananPokok);
           // Insert Simpanan Wajib
           // Get last topup date
-          $query2 = $this->db->query("SELECT * FROM riwayat_simpanan WHERE no_anggota='" . $noAnggota . "', kode_project='SYPG-01-003', paid=1 ORDER BY synced_at DESC LIMIT 1")->result_array();
+          $query2 = $this->db->query("SELECT * FROM riwayat_simpanan WHERE no_anggota='" . $noAnggota . "' AND kode_project='SYPG-01-003' AND paid=1 ORDER BY synced_at DESC LIMIT 1")->result_array();
           if (sizeof($query2) > 0) {
             $tanggal = $query2[0]['synced_at'];
             $tanggal = date('Y:m:d H:i:s', strtotime('+1 month', strtotime($tanggal)));
@@ -117,7 +117,7 @@ $this->upload->initialize($config);
         $simpananWajib = $jumlah;
           // Insert Simpanan Wajib
           // Get last topup date
-          $query2 = $this->db->query("SELECT * FROM riwayat_simpanan WHERE no_anggota='" . $noAnggota . "', kode_project='SYPG-01-003', paid=1 ORDER BY synced_at DESC LIMIT 1")->result_array();
+          $query2 = $this->db->query("SELECT * FROM riwayat_simpanan WHERE no_anggota='" . $noAnggota . "' AND kode_project='SYPG-01-003' AND paid=1 ORDER BY synced_at DESC LIMIT 1")->result_array();
           if (sizeof($query2) > 0) {
             $tanggal = $query2[0]['synced_at'];
             $tanggal = date('Y:m:d H:i:s', strtotime('+1 month', strtotime($tanggal)));
