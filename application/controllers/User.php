@@ -149,8 +149,7 @@ $this->upload->initialize($config);
           'user_id' => $userID
       ))->row_array()['no_anggota'];
       $total = 0;
-      $this->db->where('no_anggota', $noAnggota)->where('paid', 1)->where('kode_project', 'SYPG-01-002')->or_where('kode_project', 'SYPG-01-003');
-      $query = $this->db->get('riwayat_simpanan')->result_array();
+      $query = $this->db->query("SELECT * FROM riwayat_simpanan WHERE no_anggota='" . $noAnggota . "' AND paid=1");
       for ($i=0; $i<sizeof($query); $i++) {
           $total += intval($query[$i]['debet']);
       }
