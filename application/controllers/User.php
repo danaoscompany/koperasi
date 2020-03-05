@@ -65,6 +65,8 @@ $this->upload->initialize($config);
       if ($kodeProject == 'SYPG-01-002') {
         // Simpanan Pokok
         $simpananPokok = $this->get_total_simpanan_pokok($userID);
+        echo $simpananPokok;
+        return;
         if ($simpananPokok >= 1000000) {
           echo -1;
           return;
@@ -140,7 +142,8 @@ $this->upload->initialize($config);
           }
       }
     }
-    echo json_encode($this->db->error());
+    //echo json_encode($this->db->error());
+    echo 1;
   }
   
   public function get_mutlaqoh_value($userID) {
