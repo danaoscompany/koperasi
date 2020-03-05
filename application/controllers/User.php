@@ -57,7 +57,6 @@ $config['allowed_types'] = '*';
 
 $this->load->library('upload', $config);
 
-// Alternately you can set preferences by calling the ``initialize()`` method. Useful if you auto-load the class:
 $this->upload->initialize($config);
     if ($this->upload->do_upload('file')) {
       $cmd = "MAX(no_urut)";
