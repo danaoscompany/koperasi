@@ -242,10 +242,7 @@ $this->upload->initialize($config);
       $noAnggota = $this->db->get_where('nasabah', array(
       	'user_id' => $userID
       ))->row_array()['no_anggota'];
-      $this->db->order_by('synced_date', 'desc');
-      $query = $this->db->get_where('riwayat_simpanan', array(
-          'no_anggota' => $noAnggota
-      ))->result_array();
+      $query = $this->db->query("SELECT * FROM riwayat_simpanan WHERE no_anggota='" . $noAnggota . "' ORDER BY synced_date DESC")->result_array();
       for ($i=0; $i<sizeof($query); $i++) {
           $query[$i]['nama_project'] = $this->db->get_where('project', array(
               'kode_project' => $query[$i]['kode_project']
