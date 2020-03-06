@@ -268,6 +268,11 @@ $this->upload->initialize($config);
   	  	  'no_anggota' => $noAnggota,
   	  	  'kode_project' => 'SYPG-01-005'
   	  ))->result_array();
+  	  for ($i=0; $i<sizeof($query); $i++) {
+  	      $query[$i]['nama_project'] = $this->db->get_where('project', array(
+  	      	  'kode_project' => $kodeProject
+  	      ))->row_array()['nama_project'];
+  	  }
   	  echo json_encode($query);
   }
   
