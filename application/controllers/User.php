@@ -171,8 +171,7 @@ $this->upload->initialize($config);
       $userID = intval($this->get_post_value('user_id'));
       $mutlaqoh = doubleval($this->get_mutlaqoh_value($userID));
       $total = 0.0;
-      $this->db->where('paid', 1)->where('kode_project', 'SYPG-01-002')->or_where('kode_project', 'SYPG-01-003');
-      $query = $this->db->get('riwayat_simpanan')->result_array();
+      $query = $this->db->query("SELECT * FROM riwayat_simpanan WHERE kode_project='SYPG-01-002' OR kode_project='SYPG-01-003' AND paid=1")->result_array();
       for ($i=0; $i<sizeof($query); $i++) {
           $total += doubleval($query[$i]['debet']);
       }
