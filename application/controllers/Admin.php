@@ -155,12 +155,12 @@ class Admin extends CI_Controller {
 	}
 	
 	public function get_riwayat() {
-	  $this->db->order_by('synced_at', 'desc');
+	  $this->db->order_by('date', 'desc');
 	  echo json_encode($this->db->get('riwayat')->result_array());
 	}
 	
 	public function get_riwayat_simpanan() {
-	  $this->db->order_by('date', 'desc');
+	  $this->db->order_by('synced_at', 'desc');
 	  echo json_encode($this->db->get('riwayat_simpanan')->result_array());
 	}
 	
