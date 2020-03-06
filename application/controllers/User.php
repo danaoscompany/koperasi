@@ -238,6 +238,17 @@ $this->upload->initialize($config);
   }
   
   public function get_modal_history() {
+      $userID = intval($this->get_post_value('user_id'));
+      $noAnggota = $this->db->get_where('nasabah', array(
+      	'user_id' => $userID
+      ))->row_array()['no_anggota'];
+      $query = $this->db->get_where('riwayat_simpanan', array(
+          'no_anggota' => $noAnggota
+      ))->result_array();
+      echo json_encode($query);
+  }
+  
+  public function get_modal_history_2() {
     $userID = intval($this->get_post_value('user_id'));
     echo json_encode($this->db->get_where('riwayat', array(
       'user_id' => $userID,
