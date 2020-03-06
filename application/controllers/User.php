@@ -259,6 +259,19 @@ $this->upload->initialize($config);
   }
   
   public function get_riwayat_tabungan() {
+  	  $userID = intval($this->get_post_value('user_id'));
+  	  $noAnggota = $this->db->get_where('nasabah', array(
+  	  	  'user_id' => $userID,
+  	  	  'kode_project' => 'SYPG-01-005'
+  	  ))->row_array()['no_anggota'];
+  	  $query = $this->db->get_where('riwayat_simpanan', array(
+  	  	  'no_anggota' => $noAnggota,
+  	  	  'kode_project' => 'SYPG-01-005'
+  	  ))->result_array();
+  	  echo json_encode($query);
+  }
+  
+  public function get_riwayat_tabungan_2() {
     $userID = intval($this->get_post_value('user_id'));
     echo json_encode($this->db->get_where('riwayat', array(
       'user_id' => $userID,
