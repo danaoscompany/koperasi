@@ -175,8 +175,7 @@ $this->upload->initialize($config);
       for ($i=0; $i<sizeof($query); $i++) {
           $total += doubleval($query[$i]['debet']);
       }
-      //echo $mutlaqoh*100/$total;
-      echo $total;
+      echo $mutlaqoh*100/$total;
   }
   
   public function get_total_nilai_project() {
