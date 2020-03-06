@@ -160,6 +160,21 @@ $this->upload->initialize($config);
             ));
             $tanggal = date('Y:m:d H:i:s', strtotime('+1 month', strtotime($tanggal)));
           }
+      } else {
+      	  $this->db->insert('riwayat_simpanan', array(
+            'date_trans' => $tanggal,
+            'kode_project' => $kodeProject,
+            'no_rek'=> $noRek,
+            'no_anggota' => $noAnggota,
+            'kode_trans' => $id,
+            'debet' => $jumlah,
+            'credit' => 0,
+            'saldo' => $jumlah,
+            'no_urut' => $noUrut,
+            'paid' => 0,
+            'bukti_transfer' => $this->upload->data('file_name'),
+            'synced_at' => $tanggal
+            ));
       }
     }
     //echo json_encode($this->db->error());
