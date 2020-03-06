@@ -216,6 +216,7 @@ class Admin extends CI_Controller {
 	  ))->row_array()['user_id']);
 	  $amount = intval($row['debet']);
 	  $kodeProject = $row['kode_project'];
+	  $date = $row['synced_at'];
 	  $query3 = $this->db->get_where('investor', array(
             'no_anggota' => $noAnggota,
             'kode_project' => $kodeProject
@@ -236,7 +237,7 @@ class Admin extends CI_Controller {
                 'kode_project' => $kodeProject,
                 'jumlah_modal' => $jumlah,
                 'porsi_modal' => $jumlah,
-                'awal_akad' => substr($tanggal, 0, 10)
+                'awal_akad' => substr($date, 0, 10)
             ));
         }
 	  echo json_encode($this->db->error());
