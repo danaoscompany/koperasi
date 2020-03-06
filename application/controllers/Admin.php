@@ -215,6 +215,7 @@ class Admin extends CI_Controller {
 	      'no_anggota' => $noAnggota
 	  ))->row_array()['user_id']);
 	  $amount = intval($row['debet']);
+	  $jumlah = $amount;
 	  $kodeProject = $row['kode_project'];
 	  $date = $row['synced_at'];
 	  $query3 = $this->db->get_where('investor', array(
@@ -235,8 +236,8 @@ class Admin extends CI_Controller {
             $this->db->insert('investor', array(
                 'no_anggota' => $noAnggota,
                 'kode_project' => $kodeProject,
-                'jumlah_modal' => $jumlah,
-                'porsi_modal' => $jumlah,
+                'jumlah_modal' => $amount,
+                'porsi_modal' => $amount,
                 'awal_akad' => substr($date, 0, 10)
             ));
         }
