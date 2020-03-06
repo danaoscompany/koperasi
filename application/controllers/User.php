@@ -245,6 +245,11 @@ $this->upload->initialize($config);
       $query = $this->db->get_where('riwayat_simpanan', array(
           'no_anggota' => $noAnggota
       ))->result_array();
+      for ($i=0; $i<sizeof($query); $i++) {
+          $query[$i]['nama_project'] = $this->db->get_where('project', array(
+              'kode_project' => $query[$i]['kode_project']
+          ))->row_array()['nama_project'];
+      }
       echo json_encode($query);
   }
   
