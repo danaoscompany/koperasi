@@ -159,6 +159,11 @@ class Admin extends CI_Controller {
 	  echo json_encode($this->db->get('riwayat')->result_array());
 	}
 	
+	public function get_riwayat_simpanan() {
+	  $this->db->order_by('date', 'desc');
+	  echo json_encode($this->db->get('riwayat_simpanan')->result_array());
+	}
+	
 	public function ubah_transaksi() {
 	  $kodeTransaksi = $this->get_post_value('id');
 	  $date = $this->get_post_value('tanggal');
