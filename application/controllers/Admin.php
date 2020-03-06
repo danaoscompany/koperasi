@@ -216,6 +216,7 @@ class Admin extends CI_Controller {
 	  ))->row_array()['user_id']);
 	  $amount = intval($row['debet']);
 	  $jumlah = $amount;
+	  
 	  $kodeProject = $row['kode_project'];
 	  $date = $row['synced_at'];
 	  $query3 = $this->db->get_where('investor', array(
