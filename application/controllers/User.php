@@ -80,6 +80,7 @@ $this->upload->initialize($config);
             'date_trans' => $tanggal,
             'kode_project' => 'SYPG-01-002',
             'no_anggota' => $noAnggota,
+            'no_rek'=> $noRek,
             'kode_trans' => $id,
             'debet' => $topupSimpananPokok,
             'credit' => 0,
@@ -101,6 +102,7 @@ $this->upload->initialize($config);
             $this->db->insert('riwayat_simpanan', array(
             'date_trans' => $tanggal,
             'kode_project' => 'SYPG-01-003',
+            'no_rek'=> $noRek,
             'no_anggota' => $noAnggota,
             'kode_trans' => $id,
             'debet' => 50000,
@@ -127,6 +129,7 @@ $this->upload->initialize($config);
             $this->db->insert('riwayat_simpanan', array(
             'date_trans' => $tanggal,
             'kode_project' => 'SYPG-01-003',
+            'no_rek'=> $noRek,
             'no_anggota' => $noAnggota,
             'kode_trans' => $id,
             'debet' => 50000,
