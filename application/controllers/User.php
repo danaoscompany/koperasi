@@ -189,10 +189,7 @@ $this->upload->initialize($config);
           'no_anggota' => $noAnggota
       ))->result_array();
       for ($i=0; $i<sizeof($query); $i++) {
-          $kodeProject = $query[$i]['kode_project'];
-          $total += intval($this->db->get_where('project', array(
-              'kode_project' => $kodeProject
-          ))->row_array()['porsi_modal']);
+          $total += intval($query[$i]['porsi_modal']);
       }
       echo $total;
   }
