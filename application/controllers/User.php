@@ -117,29 +117,6 @@ $this->upload->initialize($config);
             $tanggal = date('Y:m:d H:i:s', strtotime('+1 month', strtotime($tanggal)));
           }
         }
-        $query3 = $this->db->get_where('investor', array(
-            'no_anggota' => $noAnggota,
-            'kode_project' => 'SYPG-01-002'
-        ))->result_array();
-        if (sizeof($query3) > 0) {
-            $porsiModal = intval($this->db->get_where('investor', array(
-                'no_anggota' => $noAnggota,
-                'kode_project' => 'SYPG-01-002'
-            ))->row_array()['porsi_modal']);
-            $this->db->where('no_anggota', $noAnggota)->where('kode_project', 'SYPG-01-002');
-            $this->db->update('investor', array(
-                'porsi_modal' => $porsiModal+$jumlah,
-                'jumlah_modal' => $porsiModal+$jumlah
-            ));
-        } else {
-            $this->db->insert('investor', array(
-                'no_anggota' => $noAnggota,
-                'kode_project' => $kodeProject,
-                'jumlah_modal' => $jumlah,
-                'porsi_modal' => $jumlah,
-                'awal_akad' => substr($tanggal, 0, 10)
-            ));
-        }
       } else if ($kodeProject == 'SYPG-01-003') {
         $simpananWajib = $jumlah;
           // Insert Simpanan Wajib

@@ -216,16 +216,29 @@ class Admin extends CI_Controller {
 	  ))->row_array()['user_id']);
 	  $amount = intval($row['debet']);
 	  $kodeProject = $row['kode_project'];
-	  if ($kodeProject == 'SYPG-01-002') {
-	  $porsiModal = intval($this->db->get_where('investor', array(
-	      'no_anggota' => $noAnggota
-	    ))->row_array()['porsi_modal']);
-	  $this->db->where('no_anggota', $noAnggota);
-	  $this->db->update('investor', array(
-	      'porsi_modal' => $porsiModal+$amount,
-	      'jumlah_modal' => $porsiModal+$amount
-	    ));
-	  }
+	  $query3 = $this->db->get_where('investor', array(
+            'no_anggota' => $noAnggota,
+            'kode_project' => $kodeProject
+        ))->result_array();
+        if (sizeof($query3) > 0) {
+            $porsiModal = intval($this->db->get_where('investor', array(
+                'no_anggota' => $noAnggota,
+                'kode_project' => $kodeProject
+            ))->row_array()['porsi_modal']);
+            $this->db->where('no_anggota', $noAnggota)->where('kode_project', 'SYPG-01-002');
+            $this->db->update('investor', array(
+                'porsi_modal' => $porsiModal+$jumlah,
+                'jumlah_modal' => $porsiModal+$jumlah
+            ));
+        } else {
+            $this->db->insert('investor', array(
+                'no_anggota' => $noAnggota,
+                'kode_project' => $kodeProject,
+                'jumlah_modal' => $jumlah,
+                'porsi_modal' => $jumlah,
+                'awal_akad' => substr($tanggal, 0, 10)
+            ));
+        }
 	  echo json_encode($this->db->error());
 	}
 	
