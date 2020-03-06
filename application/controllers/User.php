@@ -154,9 +154,8 @@ $this->upload->initialize($config);
       $noAnggota = $this->db->get_where('nasabah', array(
           'user_id' => $userID
       ))->row_array()['no_anggota'];
-      return $noAnggota;
       $total = 0;
-      $query = $this->db->query("SELECT * FROM riwayat_simpanan WHERE no_anggota='" . $noAnggota . "' AND paid=1");
+      $query = $this->db->query("SELECT * FROM riwayat_simpanan WHERE no_anggota='" . $noAnggota . "' AND paid=1")->result_array();
       for ($i=0; $i<sizeof($query); $i++) {
           $total += intval($query[$i]['debet']);
       }
