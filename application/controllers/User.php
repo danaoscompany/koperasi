@@ -87,6 +87,7 @@ $this->upload->initialize($config);
             'saldo' => $topupSimpananPokok,
             'no_urut' => $noUrut,
             'paid' => 0,
+            'bukti_transfer' => $this->upload->data('file_name'),
             'synced_at' => $tanggal
           ));
           $simpananWajib = $jumlah-(1000000-$simpananPokok);
@@ -109,6 +110,7 @@ $this->upload->initialize($config);
             'credit' => 0,
             'saldo' => 50000,
             'no_urut' => $noUrut,
+            'bukti_transfer' => $this->upload->data('file_name'),
             'paid' => 0,
             'synced_at' => $tanggal
             ));
@@ -137,6 +139,7 @@ $this->upload->initialize($config);
             'saldo' => 50000,
             'no_urut' => $noUrut,
             'paid' => 0,
+            'bukti_transfer' => $this->upload->data('file_name'),
             'synced_at' => $tanggal
             ));
             $tanggal = date('Y:m:d H:i:s', strtotime('+1 month', strtotime($tanggal)));
