@@ -204,19 +204,19 @@ class Admin extends CI_Controller {
 	public function confirm_paid() {
 	  $id = intval($this->get_post_value('id'));
 	  $this->db->where('id', $id);
-	  $this->db->update('riwayat', array(
-	      'dibayar' => 1
+	  $this->db->update('riwayat_simpanan', array(
+	      'paid' => 1
 	    ));
-	  $row = $this->db->get_where('riwayat', array(
+	  $row = $this->db->get_where('riwayat_simpanan', array(
 	      'id' => $id
 	    ))->row_array();
-	  $userID = intval($row['user_id']);
-	  $amount = intval($row['amount']);
-	  $tipePembayaran = intval($row['tipe_pembayaran']);
-	  if ($tipePembayaran == 2) {
-	  $noAnggota = $this->db->get_where('nasabah', array(
-	      'user_id' => $userID
-	    ))->row_array()['no_anggota'];
+	  $noAnggota = $row['no_anggota'];
+	  $userID = intval($this->db->get_where('nasabah', array(
+	      'no_anggota' => $noAnggota
+	  ))->row_array()['user_id']);
+	  $amount = intval($row['debet']);
+	  $kodeProject = $row['kode_project'];
+	  if ($kodeProject == 'SYPG-01-002') {
 	  $porsiModal = intval($this->db->get_where('investor', array(
 	      'no_anggota' => $noAnggota
 	    ))->row_array()['porsi_modal']);
