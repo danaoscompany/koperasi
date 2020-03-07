@@ -25,6 +25,13 @@ class Project extends CI_Controller {
 		echo $total;
 	}
 	
+	public function get_project_by_id() {
+		$kodeProject = $this->get_post_value('kode_project');
+		echo json_encode($this->db->get_where('project', array(
+			'kod_project' => $kodeProject
+		))->row_array());
+	}
+	
 	public function get_nilai_project() {
 		$kodeProject = $this->get_post_value('kode_project');
 		$nilaiProject = intval($this->db->get_where('project', array(
