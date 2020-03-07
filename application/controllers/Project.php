@@ -11,9 +11,12 @@ class Project extends CI_Controller {
 	public function get_porsi_modal() {
 		$kodeProject = $this->get_post_value('kode_project');
 		$userID = intval($this->get_post_value('user_id'));
+		$noAnggota = $this->db->get_where('nasabah', array(
+        	'user_id' => $userID
+    	))->row_array()['no_anggota'];
 		$query = $this->db->get_where('riwayat_simpanan', array(
 			'kode_project' => $kodeProject,
-			'user_id' => $userID
+			'no_anggota' => $noAnggota
 		))->result_array();
 		$total = 0;
 		for ($i=0; $i<sizeof($query); $i++) {
