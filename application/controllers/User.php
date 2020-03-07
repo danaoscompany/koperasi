@@ -8,6 +8,13 @@ class User extends CI_Controller {
 	  return $value;
 	}
 	
+	public function get_kuota_project() {
+		$kodeProject = $this->get_post_value('kode_project');
+		echo intval($this->db->get_where('project', array(
+			'kode_project' => $kodeProject
+		))->row_array()['kebutuhan_modal']);
+	}
+	
 	public function get_simpanan_qord() {
 		$userID = intval($this->input->post('user_id'));
 		$noAnggota = $this->db->get_where('nasabah', array(
