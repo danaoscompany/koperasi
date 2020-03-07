@@ -10,9 +10,14 @@ class Project extends CI_Controller {
 	
 	public function get_nilai_project() {
 		$kodeProject = $this->get_post_value('kode_project');
-		echo intval($this->db->get_where('project', array(
+		$query = $this->db->get_where('riwayat_simpanan', array(
 			'kode_project' => $kodeProject
-		))->row_array()['kebutuhan_modal']);
+		))->result_array();
+		$total = 0;
+		for ($i=0; $i<sizeof($query); $i++) {
+			$total += intval($query[$i]['debet']);
+		}
+		echo $total;
 	}
   
   public function get_nilai_project_2() {
