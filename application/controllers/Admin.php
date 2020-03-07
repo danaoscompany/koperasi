@@ -163,7 +163,13 @@ class Admin extends CI_Controller {
 	
 	public function get_riwayat_simpanan() {
 	  $this->db->order_by('synced_at', 'desc');
-	  echo json_encode($this->db->get('riwayat_simpanan')->result_array());
+	  $query = $this->db->get('riwayat_simpanan')->result_array();
+	  for ($i=0; $i<sizeof($query); $i++) {
+	  	  $query[$i]['nama_project'] = $this->db->get_where('project', array(
+	  	  	  'kode_project' => $kodeProject
+	  	  ))->row_array()['nama_project'];
+	  }
+	  echo json_encode($query);
 	}
 	
 	public function ubah_transaksi() {
