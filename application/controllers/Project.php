@@ -27,6 +27,13 @@ class Project extends CI_Controller {
 	
 	public function get_nilai_project() {
 		$kodeProject = $this->get_post_value('kode_project');
+		$nilaiProject = intval($this->db->get_where('project', array(
+			'kode_project' => $kodeProject
+		))->row_array()['nilai_project']);
+		if ($nilaiProject != 0) {
+			echo $nilaiProject;
+			return;
+		}
 		$query = $this->db->get_where('riwayat_simpanan', array(
 			'kode_project' => $kodeProject
 		))->result_array();
