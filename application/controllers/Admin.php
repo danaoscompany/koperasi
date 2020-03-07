@@ -125,12 +125,14 @@ class Admin extends CI_Controller {
 	  $namaProject = $this->get_post_value('nama_project');
 	  $kodeProject = $this->get_post_value('kode_project');
 	  $kebutuhanModal = intval($this->get_post_value('kebutuhan_modal'));
+	  $nilaiProject = intval($this->get_post_value('nilai_project'));
 	  $nisbahInvestor = $this->get_post_value('nisbah_investor');
 	  $nisbahMudhorib = $this->get_post_value('nisbah_mudhorib');
 	  $this->db->where('kode_project', $kodeProject);
 	  $this->db->update('project', array(
 	    'nama_project' => $namaProject,
 	    'kebutuhan_modal' => $kebutuhanModal,
+	    'nilai_project' => $nilaiProject,
 	    'nisbah_investor' => $nisbahInvestor,
 	    'nisbah_mudhorib' => $nisbahMudhorib
 	  ));
