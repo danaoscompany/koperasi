@@ -560,13 +560,15 @@ public function get_saldo_tersedia() {
 	}
 	
 	public function get_penyertaan_modal() {
+	    $kodeProject = $this->get_post_value('kode_project');
 	    $id = intval($this->get_post_value('user_id'));
 	    $nasabah = $this->db->get_where('nasabah', array(
 	        'user_id' => $id
 	    ))->row_array();
 	    $noAnggota = $nasabah['no_anggota'];
 	    $investor = $this->db->get_where('investor', array(
-	        'no_anggota' => $noAnggota
+	        'no_anggota' => $noAnggota,
+	        'kode_project' => $kodeProject
 	    ))->row_array();
 	    $modal = intval($investor['porsi_modal']);
 	    echo $modal;
