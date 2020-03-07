@@ -136,6 +136,7 @@ class Admin extends CI_Controller {
 	    'nisbah_investor' => $nisbahInvestor,
 	    'nisbah_mudhorib' => $nisbahMudhorib
 	  ));
+	  echo json_encode($this->db->error());
 	}
 	
 	public function enable_comment() {
