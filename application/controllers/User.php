@@ -8,6 +8,23 @@ class User extends CI_Controller {
 	  return $value;
 	}
 	
+	public function get_simpanan_pokok() {
+		$userID = intval($this->get_post_value('user_id')):
+		$noAnggota = $this->db->get_where('nasabah', array(
+			'user_id' => $userID
+		))->row_array()['no_anggota'];
+		$total = 0;
+		$query = $this->db->get_where('riwayat_simpanan', array(
+			'no_anggota' => $noAnggota,
+			'kode_project' => 'SYPG-01-002',
+			'paid' => 1
+		))->result_array();
+		for ($i=0; $i<sizeof($query); $i++) {
+			$total += intval($query[$i]['debet']);
+		}
+		echo $total;
+	}
+	
 	public function get_kuota_project() {
 		$kodeProject = $this->get_post_value('kode_project');
 		echo intval($this->db->get_where('project', array(
