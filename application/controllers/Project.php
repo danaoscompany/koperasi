@@ -7,8 +7,15 @@ class Project extends CI_Controller {
 	  $value = trim($this->input->post($postName));
 	  return $value;
 	}
+	
+	public function get_nilai_project() {
+		$kodeProject = $this->get_post_value('kode_project');
+		echo intval($this->db->get_where('project', array(
+			'kode_project' => $kodeProject
+		))->row_array()['kebutuhan_modal']);
+	}
   
-  public function get_nilai_project() {
+  public function get_nilai_project_2() {
     $code = $this->get_post_value('kode_project');
     $userID = intval($this->get_post_value('user_id'));
     $noAnggota = $this->db->get_where('nasabah', array(
