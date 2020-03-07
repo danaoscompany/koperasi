@@ -9,7 +9,7 @@ class User extends CI_Controller {
 	}
 	
 	public function get_simpanan_pokok() {
-		$userID = intval($this->get_post_value('user_id')):
+		$userID = intval($this->get_post_value('user_id'));
 		$noAnggota = $this->db->get_where('nasabah', array(
 			'user_id' => $userID
 		))->row_array()['no_anggota'];
