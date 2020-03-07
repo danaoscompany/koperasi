@@ -167,7 +167,7 @@ class Admin extends CI_Controller {
 	  $query = $this->db->get('riwayat_simpanan')->result_array();
 	  for ($i=0; $i<sizeof($query); $i++) {
 	  	  $query[$i]['nama_project'] = $this->db->get_where('project', array(
-	  	  	  'kode_project' => $kodeProject
+	  	  	  'kode_project' => $query[$i]['kode_project']
 	  	  ))->row_array()['nama_project'];
 	  }
 	  echo json_encode($query);
