@@ -248,6 +248,19 @@ $this->upload->initialize($config);
       echo $total;
   }
   
+  public function get_syirkah_muqoyyad() {
+  	  $userID = intval($this->get_post_value('user_id'));
+  	  $noAnggota = $this->db->get_where('nasabah', array(
+          'user_id' => $userID
+      ))->row_array()['no_anggota'];
+      $query = $this->db->query("SELECT * FROM riwayat_simpanan WHERE kode_project <> 'SYPG-01-001' AND kode_project <> 'SYPG-01-002'")->result_array();
+      $total = 0;
+      for ($i=0; $i<sizeof($query); $i++) {
+      	  $total += intval($query[$i]['debet']);
+      }
+      echo $total;
+  }
+  
   public function get_tabungan() {
     $userID = intval($this->get_post_value('user_id'));
     $noAnggota = $this->db->get_where('nasabah', array(
