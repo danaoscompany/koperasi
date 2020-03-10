@@ -261,6 +261,7 @@ $this->upload->initialize($config);
       echo $total;
   }
   
+  
   public function get_tabungan() {
     $userID = intval($this->get_post_value('user_id'));
     $noAnggota = $this->db->get_where('nasabah', array(
