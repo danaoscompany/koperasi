@@ -261,6 +261,20 @@ $this->upload->initialize($config);
       echo $total;
   }
   
+  public function get_all_riwayat_simpanan() {
+      $userID = intval($this->get_post_value('user_id'));
+  	  $noAnggota = $this->db->get_where('nasabah', array(
+          'user_id' => $userID
+      ))->row_array()['no_anggota'];
+  	  $query = $this->db->get_where('riwayat_simpanan', array(
+  	      'no_anggota' => $noAnggota
+  	  ))->result_array();
+  	  $total = 0;
+  	  for ($i=0; $i<sizeof($query); $i++) {
+  	      $total += intval($query[$i]['debet']);
+  	  }
+  	  echo $total;
+  }
   
   public function get_tabungan() {
     $userID = intval($this->get_post_value('user_id'));
